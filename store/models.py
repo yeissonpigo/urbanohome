@@ -6,7 +6,7 @@ from django.db.models.deletion import CASCADE
 # Create your models here.
 
 
-class usuario(models.Model):
+class cliente(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)
     primer_nombre = models.CharField(max_length=120, blank=False)
     segundo_nombre = models.CharField(max_length=120, blank=True)
