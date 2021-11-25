@@ -5,8 +5,11 @@
     margin: 0;
 }
 
-.navbar {
+body {
     font-family: 'Lato', sans-serif;
+}
+
+.navbar {
     background-color: #34C4AB;
     list-style-type: none;
     padding: 0;
@@ -48,7 +51,7 @@
     margin: auto;
     margin-top: 4px;
     margin-bottom: 4px;
-    background-color: #EEE5E9;
+    background-color: #FFFBFA;
 }
 
 /*Apply for the UH on the navbar in general (bigger than mobile view)*/
@@ -59,7 +62,7 @@
 .navbar a {
     text-align: center;
     font-size: 1.2rem;
-    color: #EEE5E9;
+    color: #FFFBFA;
     padding-top: 10px;
     padding-bottom: 10px;
     display: block;
@@ -99,17 +102,17 @@
 @keyframes navbar_hover {
     from {
         background-color: #34C4AB;
-        color: #EEE5E9;
+        color: #FFFBFA;
     }
 
     to {
-        background-color: #EEE5E9;
+        background-color: #FFFBFA;
         color: #34C4AB;
     }
 }
 
 .active a:hover {
     animation: navbar_hover 0.5s;
-    background-color: #EEE5E9;
+    background-color: #FFFBFA;
     color: #34C4AB;
 }
