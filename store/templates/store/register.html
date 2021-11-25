@@ -1,21 +1,80 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+    <link rel="stylesheet" href="{% static 'store/styles/header.css' %}">
 </head>
+
+<header>
+    <ul class="navbar first">
+        <li>
+            <a href="#">UH</a>
+        </li>
+        <li>
+            <a href="#">
+                <div class="burger__line"></div>
+                <div class="burger__line"></div>
+                <div class="burger__line"></div>
+            </a>
+        </li>
+    </ul>
+    <ul class="navbar">
+        <li class="item">
+            <a href="#" class="logo">UH</a>
+        </li>
+        <li class="item">
+            <a href="#">Home</a>
+        </li>
+        <li class="item">
+            <a href="#">Tienda</a>
+        </li>
+        <li class="item">
+            <a href="#">Galería</a>
+        </li>
+        <li class="item">
+            <a href="#">Consejos</a>
+        </li>
+        <li class="item">
+            <a href="#">Contáctanos</a>
+        </li>
+    </ul>
+    <ul class="navbar">
+        <li>
+            <a href="#">Iniciar sesión</a>
+        </li>
+        <li>
+            <a href="#">Regístrate</a>
+        </li>
+    </ul>
+</header>
+
 <body>
     <form action="">
-        <input type="email" name="correo">}
-        <input type="password" name="password" id="">
-        <input type="text" name="primer_nombre" maxlength="120">
-        <input type="text" name="segundo_nombre" maxlength="120">
-        <input type="text" name="primer_apellido" maxlength="120">
-        <input type="text" name="segundo_apellido" maxlength="120">
-        <input type="number" name="identificacion" maxlength="13">
-        <input type="number" name="celular" id="" maxlength="13">
+        <div class="main_div">
+            <div class="first_group">
+                <p>Nombre completo</p>
+                {{user_form.username}}
+                <p>Contraseña</p>
+                {{user_form.password}}
+                <p>Confirmar contraseña</p>
+                {{user_form.confirm_password}}
+            </div>
+            <div class="contact_group">
+                <p>Identificación</p>
+                {{cliente_form.identificacion}}
+                <p>Correo</p>
+                {{cliente_form.correo}}
+                <p>Celular</p>
+                {{cliente_form.celular}}
+            </div>
+        </div>
     </form>
 </body>
+
 </html>

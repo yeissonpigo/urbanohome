@@ -17,10 +17,6 @@ class TipoIdentificacion(models.Model):
   
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)
-    primer_nombre = models.CharField(max_length=120, blank=False)
-    segundo_nombre = models.CharField(max_length=120, blank=True)
-    primer_apellido = models.CharField(max_length=120, blank=False)
-    segundo_apellido = models.CharField(max_length=120, blank=True)
     identificacionId = models.ForeignKey(TipoIdentificacion, on_delete=PROTECT)
     identificacion = models.IntegerField()
     correo = models.EmailField()

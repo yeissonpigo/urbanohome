@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.navbar {
+    font-family: 'Lato', sans-serif;
+    background-color: #34C4AB;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.first {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+/*Apply for the UH on the navbar for mobile view*/
+.navbar.first a {
+    font-size: 2rem;
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.first a .burger__line {
+    width: 35px;
+    height: 4px;
+    margin: auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: #EEE5E9;
+}
+
+/*Apply for the UH on the navbar in general (bigger than mobile view)*/
+.item a.logo {
+    display: none;
+}
+
+.navbar a {
+    font-size: 1.2rem;
+    color: #EEE5E9;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    text-decoration: none;
+}
