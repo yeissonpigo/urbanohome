@@ -183,4 +183,16 @@ body {
     .navbar li a{
         width: 100%;
     }
+
+    .navbar li .center__div:hover{
+        animation: navbar_hover 0.5s;
+        background-color: #FFFBFA;
+        color: #34C4AB;
+    }
+
+    .navbar li .center__div:hover a{
+        animation: navbar_hover 0.5s;
+        background-color: #FFFBFA;
+        color: #34C4AB;
+    }
 }
