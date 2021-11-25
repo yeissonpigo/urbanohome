@@ -1,19 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+* {
+    overflow-x: hidden;
+    margin: 0;
+}
+
 .navbar {
     font-family: 'Lato', sans-serif;
     background-color: #34C4AB;
     list-style-type: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 .first {
+    position: fixed;
     display: flex;
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
+}
+
+.options {
+    position: fixed;
+    margin-top: 59px;
+}
+
+.session {
+    position: fixed;
+    margin-top: 274px;
 }
 
 /*Apply for the UH on the navbar for mobile view*/
@@ -40,10 +57,59 @@
 }
 
 .navbar a {
+    text-align: center;
     font-size: 1.2rem;
     color: #EEE5E9;
     padding-top: 10px;
     padding-bottom: 10px;
     display: block;
     text-decoration: none;
+}
+
+@keyframes deactive {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.slide {
+    animation: deactive 1s;
+    transform: translateX(100%);
+}
+
+@keyframes active {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+.active {
+    animation: active 1s;
+    transform: translateX(0%);
+}
+
+@keyframes navbar_hover {
+    from {
+        background-color: #34C4AB;
+        color: #EEE5E9;
+    }
+
+    to {
+        background-color: #EEE5E9;
+        color: #34C4AB;
+    }
+}
+
+.active a:hover {
+    animation: navbar_hover 0.5s;
+    background-color: #EEE5E9;
+    color: #34C4AB;
 }

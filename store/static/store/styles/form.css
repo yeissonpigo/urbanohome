@@ -1,8 +1,5 @@
-* {
-    margin: 0;
-}
-
 .main_div {
+    padding-top: 65px;
     width: 100%;
     height: 100vh;
     max-width: 800px;
