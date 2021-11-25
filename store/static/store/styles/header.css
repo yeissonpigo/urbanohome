@@ -116,3 +116,46 @@ body {
     background-color: #FFFBFA;
     color: #34C4AB;
 }
+
+@media only screen and (min-width: 800px) {
+    .first {
+        display: none;
+    }
+
+    .item a.logo {
+        display: block;
+        letter-spacing: -7px;
+        padding-right: 7px;
+        font-size: 2rem;
+    }
+
+    .navbar__father {
+        display: flex;
+        position: fixed;
+        width: 100%;
+    }
+
+    .options {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 70%;
+        margin-top: 0;
+        justify-content: space-around;
+    }
+
+    .session {
+        margin-top: 0;
+        padding-left: 60px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 30%;
+        justify-content: space-around;
+    }
+
+    .slide {
+        animation: initial;
+        transform: translateX(0%);
+    }
+}
