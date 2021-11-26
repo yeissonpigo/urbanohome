@@ -15,21 +15,21 @@ def index(HttpResponse):
 
 def login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request = request, data=request.POST)
+        form = Login(request = request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 loginAuth(request, user)
-                messages.info(request, f"You have logged in as {username}")
+                messages.info(request, f"Bienvenido a nuestra tienda virtual, {username}")
                 return redirect('register_success')
             else:
-                messages.info(request, f"Something has gone wrong :c")
+                messages.info(request, f"Usuario o contraseña incorrectos.")
         else:
             print(form.errors.as_text()) 
-            messages.info(request, f"Something has gone wrong :c")
-    form = AuthenticationForm()
+            messages.info(request, f"Usuario o contraseña incorrectos.")
+    form = Login()
     return render(request, 'store/login.html', {'login_form': form})
 
 
