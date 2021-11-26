@@ -2,26 +2,30 @@
 
 {% load static %}
 
-    {% block title %}
-    Registro
-    {% endblock %}
+{% block title %}
+Registro
+{% endblock %}
 
-    {% block my_css %}
-    <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
-    {% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+{% endblock %}
 
-    {% block my_body %}
-    <h1>¡Regístrate!</h1>
-    <form action="{% url 'register' %}" method="POST">
-        {% csrf_token %}
-        <div class="main_div">
-            <div class="first_group">
-                {{user_form.as_p}}
-            </div>
-            <div class="contact_group">
-                {{cliente_form.as_p}}
-            </div>
+{% block my_body %}
+<h1>¡Regístrate!</h1>
+<form action="{% url 'register' %}" method="POST">
+    {% csrf_token %}
+    <div class="main_div">
+        <div class="first_group">
+            {{user_form.as_p}}
         </div>
-        <input type="submit" value="Registrar">
-    </form>
-    {% endblock %}
+        <div class="contact_group">
+            {{cliente_form.as_p}}
+        </div>
+        <p>Al registrarte, automáticamente estás aceptando nuestra política de tratamiento de datos.</p>
+            <input class="primary" type="submit" value="Registrar">   
+            <input class="secondary" type="button" value="Cancelar">
+    </div>
+</form>
+<div class="cancel">
+</div>
+{% endblock %}

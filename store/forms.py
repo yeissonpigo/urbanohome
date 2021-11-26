@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import fields
-from .models import Cliente, User
+from .models import Cliente, User, TipoIdentificacion
 
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
@@ -28,3 +28,11 @@ class ClienteRegistrationForm(forms.ModelForm):
         model = Cliente
         
         fields = ['correo', 'celular', 'identificacionId',  'identificacion']
+        
+    def __init__(self, *args, **kwargs):
+        super(ClienteRegistrationForm, self).__init__(*args, **kwargs)
+        # this is pseudo code but you should get all options
+        # then get the product related to each variant
+        options = TipoIdentificacion.objects.all()
+        ids = [(i.id, i.nombre) for i in options]
+        self.fields['identificacionId'].choices = ids

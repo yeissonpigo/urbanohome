@@ -13,7 +13,7 @@ h1{
     margin: 0;
     margin: auto;
     width: 90%;
-    height: 100vh;
+    height: auto;
     max-width: 500px;
     max-height: 1000px;
     background-color: #FFFBFA;
@@ -29,7 +29,7 @@ h1{
     margin-top: 20px;
 }
 
-input {
+input, select, button {
     width: 100%;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -39,6 +39,36 @@ input {
     margin-bottom: 15px;
 }
 
+.secondary {
+    width: 100%;
+    color: #34C4AB;
+    border: 2px solid #34C4AB;
+    font-weight: bolder;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.primary {
+    color: #FFFBFA;
+    border: 2px solid #34C4AB;
+    font-weight: bolder;
+    background-color: #34C4AB;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.primary:hover {
+    background-color: #2ca591;
+    border-color: #2ca591;
+}
+
 label{
     display: none;
+}
+
+.cancel {
+    width: 100%;
 }
