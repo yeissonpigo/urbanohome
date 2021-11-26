@@ -6,25 +6,22 @@
     Registro
     {% endblock %}
 
-    <title>Document</title>
     {% block my_css %}
     <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
     {% endblock %}
 
     {% block my_body %}
     <h1>¡Regístrate!</h1>
-    <form action="">
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
         <div class="main_div">
             <div class="first_group">
-                {{user_form.username}}
-                {{user_form.password}}
-                {{user_form.confirm_password}}
+                {{user_form.as_p}}
             </div>
             <div class="contact_group">
-                {{cliente_form.identificacion}}
-                {{cliente_form.correo}}
-                {{cliente_form.celular}}
+                {{cliente_form.as_p}}
             </div>
         </div>
+        <input type="submit" value="Registrar">
     </form>
     {% endblock %}

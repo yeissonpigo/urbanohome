@@ -17,14 +17,14 @@ class UserRegistrationForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "password and confirm_password does not match"
+                "Las contraseñas no coinciden"
             )
         
 class ClienteRegistrationForm(forms.ModelForm):
     identificacion = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Identificación'}))
     correo = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Correo'}))
-    celular = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Identificación'}))
+    celular = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Celular'}))
     class Meta:
         model = Cliente
         
-        fields = ['identificacion', 'correo', 'celular']
+        fields = ['correo', 'celular', 'identificacionId',  'identificacion']

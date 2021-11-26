@@ -20,5 +20,5 @@ class Cliente(models.Model):
     identificacionId = models.ForeignKey(TipoIdentificacion, on_delete=PROTECT)
     identificacion = models.IntegerField()
     correo = models.EmailField()
-    celular = models.IntegerField()
-    confirmado = models.BooleanField()
+    celular = models.BigIntegerField()
+    confirmado = models.BooleanField(default=False)
