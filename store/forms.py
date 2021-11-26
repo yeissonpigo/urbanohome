@@ -1,6 +1,7 @@
 from django import forms
 from django.db.models import fields
 from .models import Cliente, User, TipoIdentificacion
+from django.contrib.auth.forms import AuthenticationForm
 
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
@@ -36,3 +37,11 @@ class ClienteRegistrationForm(forms.ModelForm):
         options = TipoIdentificacion.objects.all()
         ids = [(i.id, i.nombre) for i in options]
         self.fields['identificacionId'].choices = ids
+        
+class Login(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Contraseña'}))
+    
+    class Meta:
+        model = User
+        fields = ('username', 'password')

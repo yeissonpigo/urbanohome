@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Registro
+Iniciar Sesión
 {% endblock %}
 
 {% block my_css %}
@@ -11,18 +11,21 @@ Registro
 {% endblock %}
 
 {% block my_body %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 <h1>¡Regístrate!</h1>
-<form action="{% url 'register' %}" method="POST">
+<form action="{% url 'login' %}" method="POST">
     {% csrf_token %}
     <div class="main_div">
         <div class="first_group">
-            {{user_form.as_p}}
+            {{login_form.as_p}}
         </div>
-        <div class="contact_group">
-            {{cliente_form.as_p}}
-        </div>
-        <p>Al registrarte, automáticamente estás aceptando nuestra política de tratamiento de datos.</p>
-        <input class="primary" type="submit" value="Registrar">
+        <input class="primary" type="submit" value="Ingresar">
         <a href="/">
             <input class="secondary" type="button" value="Cancelar">
         </a>
