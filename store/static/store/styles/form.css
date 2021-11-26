@@ -1,15 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 h1{
-    margin-top: 65px;
+    margin-top: 75px;
     text-align: center;
     color: #2F2F2F;
 }
 
 .main_div {
-    width: 100%;
+    margin: 0;
+    margin: auto;
+    width: 90%;
     height: 100vh;
     max-width: 800px;
     max-height: 1000px;
     background-color: #FFFBFA;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .main_div > div {
@@ -17,5 +26,15 @@ h1{
 }
 
 #id_username {
-    background-color: aqua;
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    margin-bottom: 15px;
 }

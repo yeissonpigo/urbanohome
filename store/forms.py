@@ -3,8 +3,9 @@ from django.db.models import fields
 from .models import Cliente, User
 
 class UserRegistrationForm(forms.ModelForm):
-    password=forms.CharField(widget=forms.PasswordInput())
-    confirm_password=forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Contraseña'}))
+    confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirmar contraseña'}))
     class Meta:
         model = User
         fields = ['username', 'password']
@@ -20,6 +21,9 @@ class UserRegistrationForm(forms.ModelForm):
             )
         
 class ClienteRegistrationForm(forms.ModelForm):
+    identificacion = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Identificación'}))
+    correo = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Correo'}))
+    celular = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Identificación'}))
     class Meta:
         model = Cliente
         
