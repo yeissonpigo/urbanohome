@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
+from .models import Producto
 
 # Create your views here.
 
@@ -62,3 +63,7 @@ def register(request):
 
 def register_success(request):
     return render(request, 'store/register_success.html')
+
+def show_items(request):
+    products = Producto.objects.all()
+    return render(request, 'store/store.html', {'products': products})
