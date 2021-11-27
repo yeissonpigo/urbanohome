@@ -26,52 +26,60 @@
         </li>
     </ul>
     <div class="navbar__father">
-        
-            <ul class="navbar options slide" id="navbar">
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#" class="logo">UH</a>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#">Home</a>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#">Tienda</a>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#">Galería</a>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#">Consejos</a>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="center__div">
-                        <a href="#">Contacto</a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar session slide" id="navbar_session">
-                <li>
-                    <div class="center__div">
-                        <a href="{% url 'login' %}">Iniciar sesión</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="center__div">
-                        <a href="{% url 'register' %}">Regístrate</a>
-                    </div>
-                </li>
-            </ul>
-        
+
+        <ul class="navbar options slide" id="navbar">
+            <li class="item">
+                <div class="center__div">
+                    <a href="#" class="logo">UH</a>
+                </div>
+            </li>
+            <li class="item">
+                <div class="center__div">
+                    <a href="#">Home</a>
+                </div>
+            </li>
+            <li class="item">
+                <div class="center__div">
+                    <a href="#">Tienda</a>
+                </div>
+            </li>
+            <li class="item">
+                <div class="center__div">
+                    <a href="#">Galería</a>
+                </div>
+            </li>
+            <li class="item">
+                <div class="center__div">
+                    <a href="#">Consejos</a>
+                </div>
+            </li>
+            <li class="item">
+                <div class="center__div">
+                    <a href="#">Contacto</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar session slide" id="navbar_session">
+            <li>
+                <div class="center__div">
+                    {% if user.is_authenticated %}
+                    <a href="#">{{user.username}}</a>
+                    {% else %}
+                    <a href="{% url 'login' %}">Iniciar sesión</a>
+                    {% endif %}
+                </div>
+            </li>
+            <li>
+                <div class="center__div">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Salir</a>
+                    {% else %}
+                    <a href="{% url 'register' %}">Regístrate</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+
     </div>
 </header>
 

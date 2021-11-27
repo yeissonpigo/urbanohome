@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import ClienteRegistrationForm, UserRegistrationForm, Login
 from django.contrib import messages
-from django.contrib.auth import login as loginAuth, authenticate
+from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 
@@ -32,6 +32,10 @@ def login(request):
     form = Login()
     return render(request, 'store/login.html', {'login_form': form})
 
+def logout(request):
+    logoutAuth(request)
+    messages.info(request, 'Su sesión se ha cerrado correctamente.')
+    return redirect('register_success')
 
 def register(request):
     if request.method == 'GET':
