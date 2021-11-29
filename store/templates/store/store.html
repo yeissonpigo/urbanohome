@@ -24,6 +24,7 @@ This is a test
 
 {% for my_product in products %}
 <p>{{my_product}}</p>
+<img src="{{my_product.imagen.url}}" alt="">
 {% endfor %}
 
 {% endblock %}

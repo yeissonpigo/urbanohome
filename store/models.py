@@ -56,6 +56,7 @@ class Producto (models.Model):
     stock = models.IntegerField()
     tipoProductoId = models.ForeignKey(TipoProducto, on_delete=PROTECT)
     colorId = models.ForeignKey(Color, on_delete=PROTECT)
+    imagen = models.FileField(upload_to='media/')
     
     def __str__(self):
         return f'{self.nombre}'
