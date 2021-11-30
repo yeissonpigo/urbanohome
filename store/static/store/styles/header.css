@@ -21,6 +21,7 @@ body {
 }
 
 .messages {
+    z-index: 10;
     position: absolute;
     top: 59px;
     width: 100%;
@@ -36,6 +37,7 @@ body {
 }
 
 .navbar {
+    z-index: 10;
     background-color: #34C4AB;
     list-style-type: none;
     padding: 0;
@@ -156,6 +158,7 @@ body {
     }
 
     .navbar__father {
+        z-index: 10;
         display: flex;
         position: fixed;
         justify-content: space-around;

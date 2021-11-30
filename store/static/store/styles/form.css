@@ -48,6 +48,9 @@ input, select, button {
     margin: auto;
     margin-top: 8px;
     margin-bottom: 8px;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .primary {
@@ -58,6 +61,9 @@ input, select, button {
     cursor: pointer;
     margin-top: 8px;
     margin-bottom: 8px;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .primary:hover {

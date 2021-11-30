@@ -1,6 +1,7 @@
 {% extends 'store/base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block title %}
 Tienda UH
@@ -8,23 +9,34 @@ Tienda UH
 
 {% block my_css %}
 <link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
 {% endblock %}
 
 {% block my_body %}
 {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
+<ul class="messages">
+  {% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+</ul>
 {% endif %}
-<h1>¡Regístrate!</h1>
-<br><br><br><br>
-This is a test
 
-{% for my_product in products %}
-<p>{{my_product}}</p>
-<img src="{{my_product.imagen.url}}" alt="">
-{% endfor %}
+<h1>¡Nuestros productos!</h1>
+
+<div class="products">
+  {% for my_product in products %}
+  <div class="product">
+    <h2>{{my_product}}</h2>
+    <div class="container">
+      <img src="{{my_product.imagen.url}}" alt="Imagen de un producto">
+      <div class="detail">
+        <p>Detalles</p>
+      </div>
+    </div>
+    <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
+    <button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
+  </div>
+  {% endfor %}
+</div>
 
 {% endblock %}
