@@ -57,6 +57,7 @@ class Producto (models.Model):
     tipoProductoId = models.ForeignKey(TipoProducto, on_delete=PROTECT)
     colorId = models.ForeignKey(Color, on_delete=PROTECT)
     imagen = models.FileField(upload_to='media/')
+    descripcion = models.TextField()
     
     def __str__(self):
         return f'{self.nombre}'

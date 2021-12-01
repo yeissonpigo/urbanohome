@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'store',
     'storages',
     'django.contrib.humanize',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

@@ -13,7 +13,11 @@ from .models import Producto
 def index(HttpResponse):
     return f'hello'
 
-
+#Login function takes care of user's login.
+#request: Request object
+#return a message of success with a redirect to a new page
+#Or
+#Return login website again with a failure message
 def login(request):
     if request.method == 'POST':
         form = Login(request = request, data=request.POST)
@@ -33,11 +37,18 @@ def login(request):
     form = Login()
     return render(request, 'store/login.html', {'login_form': form})
 
+#logout function takes care of login out the users
+#request: Request object
+#return redirect to a new page
 def logout(request):
     logoutAuth(request)
     messages.info(request, 'Su sesión se ha cerrado correctamente.')
     return redirect('register_success')
 
+#register function takes care of registering new users
+#request: Request Object
+# return if POST method, a new website, unless the info on the input is not valid
+# return if GET method, website for register#
 def register(request):
     if request.method == 'GET':
         user_registration_form = UserRegistrationForm()
@@ -60,10 +71,16 @@ def register(request):
     return render(request, 'store/register.html', {'cliente_form': cliente_registration_form,
                                                    'user_form': user_registration_form})
 
-
+#register_success function is mainly a testing function, users will be redirected here when registering, or login
+#request: Request Object
+#return new page
+# #
 def register_success(request):
     return render(request, 'store/register_success.html')
 
+#show_items function will fetch all the product from the database
+#request: Request Object
+#return a render of a new page, sending the products info#
 def show_items(request):
     products = Producto.objects.all()
     return render(request, 'store/store.html', {'products': products})

@@ -34,7 +34,23 @@ Tienda UH
       </div>
     </div>
     <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
-    <button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
+    <button class="primary" id="modal{{ forloop.counter }}" style="width: 70%;"> Añadir <i
+        class="fas fa-shopping-cart"></i></button>
+  </div>
+  <div class="modal_content" id="modal{{ forloop.counter }}">
+    <div class="modal_header">
+      <span class="close">&times;</span>
+      <h2>Detalles de {{ my_product }}</h2>
+    </div>
+    <div class="modal_body">
+      <h3>Nombre:</h3>
+      <p><strong>{{ my_product }}</strong></p>
+      <h3>Precio por unidad:</h3>
+      <p><strong>{{ my_product.precio_venta }}</strong></p>
+      <h3>Descripcion:</h3>
+      <p><strong>{{ my_product.descripcion }}</strong></p>
+      <button class="secondary" id="closeModal">Cerrar</button>
+    </div>
   </div>
   {% endfor %}
 </div>
