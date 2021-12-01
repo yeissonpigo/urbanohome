@@ -10,6 +10,7 @@ Tienda UH
 {% block my_css %}
 <link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
 <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/modal.css' %}">
 {% endblock %}
 
 {% block my_body %}
@@ -34,25 +35,53 @@ Tienda UH
       </div>
     </div>
     <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
-    <button class="primary" id="modal{{ forloop.counter }}" style="width: 70%;"> Añadir <i
+    <button class="primary" id="modalButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i
         class="fas fa-shopping-cart"></i></button>
   </div>
-  <div class="modal_content" id="modal{{ forloop.counter }}">
-    <div class="modal_header">
-      <span class="close">&times;</span>
-      <h2>Detalles de {{ my_product }}</h2>
-    </div>
-    <div class="modal_body">
-      <h3>Nombre:</h3>
-      <p><strong>{{ my_product }}</strong></p>
-      <h3>Precio por unidad:</h3>
-      <p><strong>{{ my_product.precio_venta }}</strong></p>
-      <h3>Descripcion:</h3>
-      <p><strong>{{ my_product.descripcion }}</strong></p>
-      <button class="secondary" id="closeModal">Cerrar</button>
+  <div class="modal_background" id="modal{{ forloop.counter }}">
+    <div class="modal_content">
+      <div class="modal_header">
+        <span class="close" id="modalClose{{ forloop.counter }}">&times;</span>
+        <h2>Detalles de {{ my_product }}</h2>
+      </div>
+      <div class="modal_body">
+        <h3>Nombre:</h3>
+        <p><strong>{{ my_product }}</strong></p>
+        <h3>Precio por unidad:</h3>
+        <p><strong>COP ${{ my_product.precio_venta|floatformat|intcomma }}</strong></p>
+        <h3>Descripcion:</h3>
+        <p><strong>{{ my_product.descripcion }}</strong></p>
+        <button class="secondary" id="closeModal{{ forloop.counter }}">Cerrar</button>
+      </div>
     </div>
   </div>
   {% endfor %}
 </div>
 
+<script type="text/javascript">
+  {% for my_product in products %}
+    var modal = document.getElementById('modal{{ forloop.counter }}')
+    var btn = document.getElementById('modalButton{{ forloop.counter }}')
+    var close = document.getElementById('modalClose{{ forloop.counter }}')
+    var close2 = document.getElementById('closeModal{{ forloop.counter }}')
+
+    btn.onclick = function(){
+      modal.style.display = "flex";
+    }
+
+    close.onclick = function(){
+      modal.style.display = "none";
+    }
+
+    close2.onclick = function(){
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event){
+      if(event.target == modal){
+        modal.style.display = "none";
+      }
+    }
+  {% endfor %}
+</script>
 {% endblock %}

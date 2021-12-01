@@ -1,0 +1,40 @@
+.modal_background {
+    z-index: 8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2F2F2F80;
+    vertical-align:middle;
+    display: none;
+    align-items: center;
+}
+
+.modal_content {
+    background-color: #34c4ac;
+    border-radius: 5px;
+    margin: auto;
+    width: 80%;
+    max-width: 600px;
+    vertical-align:middle;
+}
+
+.modal_header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.modal_header span {
+    cursor: pointer;
+}
+
+.modal_body {
+    background-color: #FFFBFA;
+}
+
+.secondary {
+    width: 60%;
+}
