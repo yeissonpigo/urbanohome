@@ -35,6 +35,54 @@
     background-color: #FFFBFA;
 }
 
-.secondary {
-    width: 60%;
+.modal_body h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.primary, .secondary {
+    width: 80%;
+    margin-top: 0px;
+}
+
+.counter {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 46px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.minus, .plus {
+    width: 25%;
+}
+
+.quantity{
+    width: 50%;
+    height: 100%;
+    margin-bottom: 0;
+    padding-left: 20px;
+}
+
+.symbol {
+    text-align: center;
+    margin: auto;
+    padding: 0;
+    height: 100%;
+    background-color: #34c4ac;
+}
+
+.minus.symbol {
+    margin-right: 0;
+}
+
+.plus.symbol {
+    margin-left: 0;
+}
+
+.symbol p {
+    font-size: 1.5rem;
+    padding: 0;
+    color: #FFFBFA;
 }

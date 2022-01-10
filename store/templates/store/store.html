@@ -30,14 +30,33 @@ Tienda UH
     <h2>{{my_product}}</h2>
     <div class="container">
       <img src="{{my_product.imagen.url}}" alt="Imagen de un producto">
-      <div class="detail">
+      <div class="detail" id="modalButton{{ forloop.counter }}">
         <p> <strong> Detalles </strong></p>
       </div>
     </div>
     <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
-    <button class="primary" id="modalButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i
-        class="fas fa-shopping-cart"></i></button>
+    <button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
   </div>
+
+  <div class="modal_background" id="carrito{{ forloop.counter }}">
+    <div class="modal_content">
+      <div class="modal_header">
+        <span class="close" id="carritoClose{{ forloop.counter }}">&times;</span>
+        <h2>Añadir al carrito</h2>
+      </div>
+      <div class="modal_body">
+        <h3>Cantidad de {{ my_product }}</h3>
+        <div class="counter">
+          <button id="minus" class="minus symbol"><p>-</p></button>
+          <input type="number" name="quantity" id="quantity" class="quantity">
+          <button id="plus" class="plus symbol"><p>+</p></button>
+        </div>
+        <button class="primary">Añadir</button>
+        <button class="secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal_background" id="modal{{ forloop.counter }}">
     <div class="modal_content">
       <div class="modal_header">
@@ -60,26 +79,51 @@ Tienda UH
 
 <script type="text/javascript">
   {% for my_product in products %}
-    var modal = document.getElementById('modal{{ forloop.counter }}')
-    var btn = document.getElementById('modalButton{{ forloop.counter }}')
-    var close = document.getElementById('modalClose{{ forloop.counter }}')
-    var close2 = document.getElementById('closeModal{{ forloop.counter }}')
 
-    btn.onclick = function(){
-      modal.style.display = "flex";
+  /*
+  Script for details modals
+  */
+    var modal{{ forloop.counter }} = document.getElementById('modal{{ forloop.counter }}')
+    var btn{{ forloop.counter }} = document.getElementById('modalButton{{ forloop.counter }}')
+    var close{{ forloop.counter }} = document.getElementById('modalClose{{ forloop.counter }}')
+    var close2{{ forloop.counter }} = document.getElementById('closeModal{{ forloop.counter }}')
+
+      btn{{ forloop.counter }}.onclick = function () {
+        modal{{ forloop.counter }}.style.display = "flex";
     }
 
-    close.onclick = function(){
-      modal.style.display = "none";
+      close{{ forloop.counter }}.onclick = function () {
+        modal{{ forloop.counter }}.style.display = "none";
     }
 
-    close2.onclick = function(){
-      modal.style.display = "none";
+      close2{{ forloop.counter }}.onclick = function () {
+        modal{{ forloop.counter }}.style.display = "none";
     }
 
-    window.onclick = function(event){
-      if(event.target == modal){
-        modal.style.display = "none";
+    window.onclick = function (event) {
+      if (event.target == modal{{ forloop.counter }}) {
+          modal{{ forloop.counter }}.style.display = "none";
+      }
+    }
+
+    /*
+    Script for carrito modals
+    */
+    var carrito{{ forloop.counter }} = document.getElementById('carrito{{ forloop.counter }}')
+    var carritoBtn{{ forloop.counter }} = document.getElementById('carritoButton{{ forloop.counter }}')
+    var carritoClose{{ forloop.counter }} = document.getElementById('carritoClose{{ forloop.counter }}')
+
+      carritoBtn{{ forloop.counter }}.onclick = function () {
+        carrito{{ forloop.counter }}.style.display = "flex";
+    }
+
+      carritoClose{{ forloop.counter }}.onclick = function () {
+        carrito{{ forloop.counter }}.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+      if (event.target == carrito{{ forloop.counter }}) {
+          carrito{{ forloop.counter }}.style.display = "none";
       }
     }
   {% endfor %}
