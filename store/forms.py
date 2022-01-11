@@ -1,6 +1,7 @@
 from django import forms
+from django.db import models
 from django.db.models import fields
-from .models import Cliente, User, TipoIdentificacion
+from .models import Cliente, User, TipoIdentificacion, Carro
 from django.contrib.auth.forms import AuthenticationForm
 
 class UserRegistrationForm(forms.ModelForm):
@@ -45,3 +46,11 @@ class Login(AuthenticationForm):
     class Meta:
         model = User
         fields = ('username', 'password')
+        
+class CardForm(forms.ModelForm):
+    
+    cantidad = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Cantidad'}))
+    
+    class Meta:
+        model = Carro
+        fields = ('clienteId', 'productoId', 'cantidad')

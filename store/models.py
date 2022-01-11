@@ -61,3 +61,8 @@ class Producto (models.Model):
     
     def __str__(self):
         return f'{self.nombre}'
+    
+class Carro(models.Model):
+    clienteId = models.ForeignKey(Cliente, on_delete=PROTECT)
+    productoId = models.ForeignKey(Producto, on_delete=PROTECT)
+    cantidad = models.IntegerField()

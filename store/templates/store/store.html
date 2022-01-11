@@ -44,16 +44,21 @@ Tienda UH
         <span class="close" id="carritoClose{{ forloop.counter }}">&times;</span>
         <h2>Añadir al carrito</h2>
       </div>
-      <div class="modal_body">
-        <h3>Cantidad de {{ my_product }}</h3>
-        <div class="counter">
-          <button id="minus" class="minus symbol"><p>-</p></button>
-          <input type="number" name="quantity" id="quantity" class="quantity">
-          <button id="plus" class="plus symbol"><p>+</p></button>
+      <form action="{ url 'card'}" method="post" id="card_form">
+        <div class="modal_body">
+          {% csrf_token %}
+          <input type="text" name="clienteId" id="id_clienteId" value='{{user.username}}' style="display: none;">
+          <input type="text" name="productoId" id="id_productoId"  value='{{my_product.id}}' style="display: none;">
+          <h3>Cantidad de {{ my_product }}</h3>
+          <div class="counter">
+            <button id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
+            <input type="number" name="quantity" id="quantity{{ forloop.counter }}" class="quantity" value="0" max="20" min="0">
+            <button id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
+          </div>
+          <button class="primary" type="submit">Añadir</button>
+          <button class="secondary" id="closeCarrito{{ forloop.counter }}">Cancelar</button>
         </div>
-        <button class="primary">Añadir</button>
-        <button class="secondary">Cancelar</button>
-      </div>
+      </form>
     </div>
   </div>
 
@@ -76,7 +81,10 @@ Tienda UH
   </div>
   {% endfor %}
 </div>
+{% endblock %}
 
+
+{% block my_scripts %}
 <script type="text/javascript">
   {% for my_product in products %}
 
@@ -112,12 +120,17 @@ Tienda UH
     var carrito{{ forloop.counter }} = document.getElementById('carrito{{ forloop.counter }}')
     var carritoBtn{{ forloop.counter }} = document.getElementById('carritoButton{{ forloop.counter }}')
     var carritoClose{{ forloop.counter }} = document.getElementById('carritoClose{{ forloop.counter }}')
+    var closeCarrito{{ forloop.counter }} = document.getElementById('closeCarrito{{ forloop.counter }}')
 
       carritoBtn{{ forloop.counter }}.onclick = function () {
         carrito{{ forloop.counter }}.style.display = "flex";
     }
 
       carritoClose{{ forloop.counter }}.onclick = function () {
+        carrito{{ forloop.counter }}.style.display = "none";
+    }
+
+      closeCarrito{{ forloop.counter }}.onclick = function () {
         carrito{{ forloop.counter }}.style.display = "none";
     }
 
@@ -128,4 +141,9 @@ Tienda UH
     }
   {% endfor %}
 </script>
+<script>
+  var card_url = {% url 'card' %}
+  </script>
+<script src="{% static 'store/scripts/counter.js' %}"></script>
+<script src="{% static 'store/scripts/ajax.js' %}"></script>
 {% endblock %}

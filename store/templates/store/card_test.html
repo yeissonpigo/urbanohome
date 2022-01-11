@@ -1,0 +1,27 @@
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Registro
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+{% endblock %}
+
+{% block my_body %}
+<h1>Carrito</h1>
+<form action="{% url 'card' %}" method="POST">
+    {% csrf_token %}
+    <div class="main_div">
+        <div class="first_group">
+            {{card_form.as_p}}
+        </div>
+        <input class="primary" type="submit" value="Registrar">
+        <a href="/">
+            <input class="secondary" type="button" value="Cancelar">
+        </a>
+    </div>
+</form>
+{% endblock %}

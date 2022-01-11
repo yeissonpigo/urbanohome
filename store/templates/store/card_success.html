@@ -1,0 +1,17 @@
+{% extends 'store/base.html'  %}
+{% load static %}
+
+{% block title %}
+    Registro OK
+{% endblock %}
+
+{% block my_body %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    <h1>Se ha guardado correctamente!</h1>
+{% endblock %}

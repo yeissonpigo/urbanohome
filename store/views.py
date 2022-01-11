@@ -1,6 +1,7 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import ClienteRegistrationForm, UserRegistrationForm, Login
+from .forms import ClienteRegistrationForm, UserRegistrationForm, Login, CardForm
 from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
@@ -84,3 +85,17 @@ def register_success(request):
 def show_items(request):
     products = Producto.objects.all()
     return render(request, 'store/store.html', {'products': products})
+
+def card(request):
+    if request.method == 'GET':
+        card_form = CardForm()
+    else:
+        card_form = CardForm(request.POST)
+        if card_form.is_valid():
+            card = card_form.save(commit=False)
+            card = card_form.save()
+            data = {
+                "msg":"Data has been posted!",
+            }
+            return JsonResponse(data)
+    #return render(request, 'store/card_test.html', {'card_form': card_form,})
