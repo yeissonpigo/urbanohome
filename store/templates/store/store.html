@@ -52,7 +52,7 @@ Tienda UH
           <h3>Cantidad de {{ my_product }}</h3>
           <div class="counter">
             <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
-            <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="0" max="20" min="0">
+            <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="0" max="20" min="0" readonly>
             <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
           </div>
           <button class="primary" type="submit">Añadir</button>
