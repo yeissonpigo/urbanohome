@@ -35,7 +35,11 @@ Tienda UH
       </div>
     </div>
     <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
+    {% if user.is_authenticated %}
     <button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
+    {% else %}
+    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button></a>
+    {% endif %}
   </div>
 
   <div class="modal_background" id="carrito{{ forloop.counter }}">
