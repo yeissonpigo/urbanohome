@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
-from .models import Producto
+from .models import Producto, User, Cliente
 
 # Create your views here.
 
@@ -84,7 +84,10 @@ def register_success(request):
 #return a render of a new page, sending the products info#
 def show_items(request):
     products = Producto.objects.all()
-    return render(request, 'store/store.html', {'products': products})
+    username = request.user
+    user = Cliente.objects.get(user=username.id)
+    
+    return render(request, 'store/store.html', {'products': products, 'userId': user.id})
 
 def card(request):
     if request.method == 'GET':
@@ -98,4 +101,4 @@ def card(request):
                 "msg":"Data has been posted!",
             }
             return JsonResponse(data)
-    #return render(request, 'store/card_test.html', {'card_form': card_form,})
+    return render(request, 'store/card_test.html', {'card_form': card_form,})

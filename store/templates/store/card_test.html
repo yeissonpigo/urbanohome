@@ -12,7 +12,7 @@ Registro
 
 {% block my_body %}
 <h1>Carrito</h1>
-<form action="{% url 'card' %}" method="POST">
+<form action="{% url 'card' %}" method="POST" id="card_form">
     {% csrf_token %}
     <div class="main_div">
         <div class="first_group">
@@ -24,4 +24,8 @@ Registro
         </a>
     </div>
 </form>
+<script>
+    var card_url = '{% url 'card' %}'
+  </script>
+  <script src="{% static 'store/scripts/ajax.js' %}"></script>
 {% endblock %}

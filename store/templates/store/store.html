@@ -44,16 +44,16 @@ Tienda UH
         <span class="close" id="carritoClose{{ forloop.counter }}">&times;</span>
         <h2>Añadir al carrito</h2>
       </div>
-      <form action="{ url 'card'}" method="post" id="card_form">
+      <form action="{% url 'card'%}" method="POST" id="card_form">
         <div class="modal_body">
           {% csrf_token %}
-          <input type="text" name="clienteId" id="id_clienteId" value='{{user.username}}' style="display: none;">
-          <input type="text" name="productoId" id="id_productoId"  value='{{my_product.id}}' style="display: none;">
+          <input type="text" name="clienteId" required id="id_clienteId" value='{{userId}}' style="display: none;">
+          <input type="text" name="productoId" required id="id_productoId"  value='{{my_product.id}}' style="display: none;">
           <h3>Cantidad de {{ my_product }}</h3>
           <div class="counter">
-            <button id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
-            <input type="number" name="quantity" id="quantity{{ forloop.counter }}" class="quantity" value="0" max="20" min="0">
-            <button id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
+            <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
+            <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="0" max="20" min="0">
+            <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
           </div>
           <button class="primary" type="submit">Añadir</button>
           <button class="secondary" id="closeCarrito{{ forloop.counter }}">Cancelar</button>
@@ -142,8 +142,8 @@ Tienda UH
   {% endfor %}
 </script>
 <script>
-  var card_url = {% url 'card' %}
-  </script>
+  var card_url = '{% url 'card' %}'
+</script>
 <script src="{% static 'store/scripts/counter.js' %}"></script>
 <script src="{% static 'store/scripts/ajax.js' %}"></script>
 {% endblock %}
