@@ -1,6 +1,7 @@
 {% extends 'store/base.html' %}
 
 {% load static %}
+{% load humanize %}
 {% load tags %}
 
 {% block title %}
@@ -16,6 +17,21 @@ Carrito
 
 {% for my_card in my_cards %}
 {{ my_card }} {{my_products|find_id:my_card.productoId.id}}
+<div class="product">
+    <h2>{{my_products|find_id:my_card.productoId.id}}</h2>
+    <div class="container">
+      <img src="{{my_product.imagen.url}}" alt="Imagen de un producto">
+      <div class="detail" id="modalButton{{ forloop.counter }}">
+        <p> <strong> Detalles </strong></p>
+      </div>
+    </div>
+    <h3>COP ${{my_products.precio_venta|floatformat|intcomma}}</h3>
+    {% if user.is_authenticated %}
+    <button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
+    {% else %}
+    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button></a>
+    {% endif %}
+  </div>
 {% endfor %}
 
 <form action="{% url 'card' %}?clienteId={{user.id}}" method="POST" id="card_form">
