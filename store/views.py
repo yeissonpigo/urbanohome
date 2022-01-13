@@ -135,4 +135,9 @@ def  card_index(request):
     if request.method == 'GET':
         my_cliente = Cliente.objects.get(user_id = request.user.id)
         my_cards = Carro.objects.filter(clienteId = my_cliente.id)
-    return render(request, 'store/card.html', {'my_cards': my_cards})
+        my_productos = []
+        for my_card in my_cards:
+            my_product = Producto.objects.get(id = my_card.productoId.id)
+            my_productos.append(my_product)
+    return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos
+    })
