@@ -101,6 +101,11 @@ def show_items(request):
         return render(request, 'store/store.html', {'products': products, 'userId': user.id})
     return render(request, 'store/store.html', {'products': products,})
 
+# card function will check request method, if it's get, will show the form to save a new cart, if already exists doesn't do anything. If request is post, will save the cart if non existant on the database.
+# request: Request Object
+# return either a form to save data, or a json object for developing purposes.
+
+
 def card(request):
     if request.method == 'GET':
         card_form = CardForm()
@@ -120,3 +125,14 @@ def card(request):
             }
             return JsonResponse(data)
     return render(request, 'store/card_test.html', {'card_form': card_form, })
+
+# card_index function will fetch all the objects from Carro table in database
+# request: Request Object
+#return a render of a new page, sending the carro info#
+
+
+def  card_index(request):
+    if request.method == 'GET':
+        my_cliente = Cliente.objects.get(user_id = request.user.id)
+        my_cards = Carro.objects.filter(clienteId = my_cliente.id)
+    return render(request, 'store/card.html', {'my_cards': my_cards})

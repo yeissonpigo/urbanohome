@@ -1,0 +1,32 @@
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Carrito
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
+{% endblock %}
+
+{% block my_body %}
+<h1>¡Tu carrito de compra!</h1>
+
+{% for my_card in my_cards %}
+{{ my_card }}
+{% endfor %}
+
+<form action="{% url 'card' %}?clienteId={{user.id}}" method="POST" id="card_form">
+    {% csrf_token %}
+    <div class="main_div">
+        <div class="first_group">
+            {{card_form.as_p}}
+        </div>
+        <input class="primary" type="submit" value="Registrar">
+        <a href="/">
+            <input class="secondary" type="button" value="Cancelar">
+        </a>
+    </div>
+</form>
+{% endblock %}
