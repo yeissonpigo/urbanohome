@@ -179,10 +179,6 @@ Tienda UH
   $("#messages").html("");
   $.each(messages, function (i, m) {
                   $("#messages").append("<li class='"+m.extra_tags+"''>"+m.message+"</li>");
-                  $('#messages').toggleClass('messages');
-                  $('#messages').css("opacity", "100");
-                  $('#messages').toggleClass('messages');
-                  $('#messages').css("opacity", "");
                 });
               }
   

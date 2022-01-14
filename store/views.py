@@ -119,11 +119,10 @@ def card(request):
             }
             my_card = Carro.objects.filter(clienteId=card.clienteId, productoId=card.productoId)
             if my_card:
-                messages.error(request, 'It was not saved :C .')
+                messages.error(request, '¡Ups! Ya tienes este producto en tu carrito de compras. Para revisar tu carrito de compras, click AQUÍ.')
             else:
-                messages.success(request, 'IT WAS SAVED')
-                
-            card = card_form.save()
+                messages.success(request, '¡Tu producto se ha añadido correctamente!')
+                card = card_form.save()
             django_messages = []
 
             for message in messages.get_messages(request):
@@ -136,7 +135,6 @@ def card(request):
             data = {}
             data['success'] = 'i dont know'
             data['messages'] = django_messages
-            print(data)
             return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card_test.html', {'card_form': card_form, })
 
