@@ -30,6 +30,10 @@ h1:first-of-type {
     z-index: 5;
 }
 
+.product h2{
+    margin: auto;
+}
+
 .product:last-of-type {
     margin-bottom: 20px;
 }

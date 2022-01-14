@@ -14,13 +14,13 @@ Tienda UH
 {% endblock %}
 
 {% block my_body %}
-{% if messages %}
 <ul class="messages">
+  {% if messages %}
   {% for message in messages %}
   <li class="{{ message.tags }}">{{ message }}</li>
   {% endfor %}
+  {% endif %}
 </ul>
-{% endif %}
 
 <h1>¡Nuestros productos!</h1>
 
@@ -36,9 +36,11 @@ Tienda UH
     </div>
     <h3>COP ${{my_product.precio_venta|floatformat|intcomma}}</h3>
     {% if user.is_authenticated %}
-    <button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>
+    <button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i
+        class="fas fa-shopping-cart"></i></button>
     {% else %}
-    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button></a>
+    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i
+          class="fas fa-shopping-cart"></i></button></a>
     {% endif %}
   </div>
 
@@ -48,16 +50,22 @@ Tienda UH
         <span class="close" id="carritoClose{{ forloop.counter }}">&times;</span>
         <h2>Añadir al carrito</h2>
       </div>
-      <form action="{% url 'card'%}" method="POST" id="card_form">
+      <form action="{% url 'card'%}" method="POST" id="card_form{{ forloop.counter }}">
         <div class="modal_body">
           {% csrf_token %}
           <input type="text" name="clienteId" required id="id_clienteId" value='{{userId}}' style="display: none;">
-          <input type="text" name="productoId" required id="id_productoId"  value='{{my_product.id}}' style="display: none;">
+          <input type="text" name="productoId" required id="id_productoId" value='{{my_product.id}}'
+            style="display: none;">
           <h3>Cantidad de {{ my_product }}</h3>
           <div class="counter">
-            <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
-            <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="0" max="20" min="0" readonly>
-            <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
+            <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})">
+              <p>-</p>
+            </button>
+            <input type="number" name="cantidad" id="quantity{{ forloop.counter }}"
+              class="quantity quantity{{ forloop.counter }}" value="0" max="20" min="0" readonly>
+            <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})">
+              <p>+</p>
+            </button>
           </div>
           <button class="primary" type="submit">Añadir</button>
           <button class="secondary" id="closeCarrito{{ forloop.counter }}">Cancelar</button>
@@ -89,61 +97,93 @@ Tienda UH
 
 
 {% block my_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
   {% for my_product in products %}
 
   /*
   Script for details modals
   */
-    var modal{{ forloop.counter }} = document.getElementById('modal{{ forloop.counter }}')
-    var btn{{ forloop.counter }} = document.getElementById('modalButton{{ forloop.counter }}')
-    var close{{ forloop.counter }} = document.getElementById('modalClose{{ forloop.counter }}')
-    var close2{{ forloop.counter }} = document.getElementById('closeModal{{ forloop.counter }}')
+  var modal{{ forloop.counter }} = document.getElementById('modal{{ forloop.counter }}')
+  var btn{{ forloop.counter }} = document.getElementById('modalButton{{ forloop.counter }}')
+  var close{{ forloop.counter }} = document.getElementById('modalClose{{ forloop.counter }}')
+  var close2{{ forloop.counter }} = document.getElementById('closeModal{{ forloop.counter }}')
 
       btn{{ forloop.counter }}.onclick = function () {
         modal{{ forloop.counter }}.style.display = "flex";
-    }
+  }
 
       close{{ forloop.counter }}.onclick = function () {
         modal{{ forloop.counter }}.style.display = "none";
-    }
+  }
 
       close2{{ forloop.counter }}.onclick = function () {
         modal{{ forloop.counter }}.style.display = "none";
-    }
+  }
 
-    window.onclick = function (event) {
-      if (event.target == modal{{ forloop.counter }}) {
+  window.onclick = function (event) {
+    if (event.target == modal{{ forloop.counter }}) {
           modal{{ forloop.counter }}.style.display = "none";
-      }
     }
+  }
 
-    /*
-    Script for carrito modals
-    */
-    var carrito{{ forloop.counter }} = document.getElementById('carrito{{ forloop.counter }}')
-    var carritoBtn{{ forloop.counter }} = document.getElementById('carritoButton{{ forloop.counter }}')
-    var carritoClose{{ forloop.counter }} = document.getElementById('carritoClose{{ forloop.counter }}')
-    var closeCarrito{{ forloop.counter }} = document.getElementById('closeCarrito{{ forloop.counter }}')
+  /*
+  Script for carrito modals
+  */
+  var carrito{{ forloop.counter }} = document.getElementById('carrito{{ forloop.counter }}')
+  var carritoBtn{{ forloop.counter }} = document.getElementById('carritoButton{{ forloop.counter }}')
+  var carritoClose{{ forloop.counter }} = document.getElementById('carritoClose{{ forloop.counter }}')
+  var closeCarrito{{ forloop.counter }} = document.getElementById('closeCarrito{{ forloop.counter }}')
 
       carritoBtn{{ forloop.counter }}.onclick = function () {
         carrito{{ forloop.counter }}.style.display = "flex";
-    }
+  }
 
       carritoClose{{ forloop.counter }}.onclick = function () {
         carrito{{ forloop.counter }}.style.display = "none";
-    }
+  }
 
       closeCarrito{{ forloop.counter }}.onclick = function () {
         carrito{{ forloop.counter }}.style.display = "none";
-    }
+  }
 
-    window.onclick = function (event) {
-      if (event.target == carrito{{ forloop.counter }}) {
+  window.onclick = function (event) {
+    if (event.target == carrito{{ forloop.counter }}) {
           carrito{{ forloop.counter }}.style.display = "none";
-      }
     }
+  }
+
+  $("#card_form{{forloop.counter}}").submit(function (e) {
+    // preventing from page reload and default actions
+    alert('test')
+    e.preventDefault();
+    // serialize the data for sending the form data.
+    var serializedData = $(this).serialize();
+    // make POST ajax call
+    $.ajax({
+      type: 'POST',
+      url: card_url,
+      data: serializedData,
+      success: function (response) {
+        alert('it worked')
+        success = response.success;
+        update_messages(response.messages);
+        alert(response.message)
+      },
+      error: function (response) {
+        // alert the error if any error occured
+        alert(response["responseJSON"]["error"]);
+      }
+    })
+  })
   {% endfor %}
+  function update_messages(messages){
+  $("#messages").html("");
+  $.each(messages, function (i, m) {
+                  $("#messages").append("<div class='alert alert-"+m.level+"''>"+m.message+"</div>");
+                });
+              };
+  
 </script>
 <script>
   var card_url = '{% url 'card' %}'

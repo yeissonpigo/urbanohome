@@ -1,5 +1,6 @@
-$("#card_form").submit(function (e) {
+$("#card_form1").submit(function (e) {
     // preventing from page reload and default actions
+    alert('test')
     e.preventDefault();
     // serialize the data for sending the form data.
     var serializedData = $(this).serialize();
