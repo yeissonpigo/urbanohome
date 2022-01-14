@@ -26,14 +26,27 @@ body {
     top: 59px;
     width: 100%;
     height: 30px;
-    background-color: #D2F898;
     animation: delete_message 5s;
     opacity: 0;
+}
+
+.messages li {
+    width: 100%;
+    text-align: center;
+}
+
+.test {
+    opacity: 1;
 }
 
 .info {
     text-align: center;
     align-items: center;
+    background-color: #D2F898;
+}
+
+.error {
+    background-color: #EF6461;
 }
 
 .navbar {

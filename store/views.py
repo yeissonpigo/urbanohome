@@ -7,6 +7,7 @@ from django.contrib.auth import login as loginAuth, authenticate, logout as logo
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 from .models import Producto, User, Cliente, Carro
+import json
 
 # Create your views here.
 
@@ -118,12 +119,25 @@ def card(request):
             }
             my_card = Carro.objects.filter(clienteId=card.clienteId, productoId=card.productoId)
             if my_card:
-                return JsonResponse(test)
+                messages.error(request, 'It was not saved :C .')
+            else:
+                messages.success(request, 'IT WAS SAVED')
+                
             card = card_form.save()
-            data = {
-                "msg": "Data has been posted!",
-            }
-            return JsonResponse(data)
+            django_messages = []
+
+            for message in messages.get_messages(request):
+                django_messages.append({
+                    "level": message.level,
+                    "message": message.message,
+                    "extra_tags": message.tags,
+            })
+                
+            data = {}
+            data['success'] = 'i dont know'
+            data['messages'] = django_messages
+            print(data)
+            return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card_test.html', {'card_form': card_form, })
 
 # card_index function will fetch all the objects from Carro table in database

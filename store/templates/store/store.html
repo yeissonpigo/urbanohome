@@ -14,7 +14,7 @@ Tienda UH
 {% endblock %}
 
 {% block my_body %}
-<ul class="messages">
+<ul class="messages" id="messages">
   {% if messages %}
   {% for message in messages %}
   <li class="{{ message.tags }}">{{ message }}</li>
@@ -155,7 +155,6 @@ Tienda UH
 
   $("#card_form{{forloop.counter}}").submit(function (e) {
     // preventing from page reload and default actions
-    alert('test')
     e.preventDefault();
     // serialize the data for sending the form data.
     var serializedData = $(this).serialize();
@@ -165,10 +164,9 @@ Tienda UH
       url: card_url,
       data: serializedData,
       success: function (response) {
-        alert('it worked')
         success = response.success;
         update_messages(response.messages);
-        alert(response.message)
+        alert(response.messages[0].message)
       },
       error: function (response) {
         // alert the error if any error occured
@@ -180,9 +178,13 @@ Tienda UH
   function update_messages(messages){
   $("#messages").html("");
   $.each(messages, function (i, m) {
-                  $("#messages").append("<div class='alert alert-"+m.level+"''>"+m.message+"</div>");
+                  $("#messages").append("<li class='"+m.extra_tags+"''>"+m.message+"</li>");
+                  $('#messages').toggleClass('messages');
+                  $('#messages').css("opacity", "100");
+                  $('#messages').toggleClass('messages');
+                  $('#messages').css("opacity", "");
                 });
-              };
+              }
   
 </script>
 <script>
