@@ -66,11 +66,18 @@
 }
 
 .symbol {
+    border: none;
     text-align: center;
     margin: auto;
     padding: 0;
     height: 100%;
     background-color: #34c4ac;
+    cursor: pointer;
+}
+
+.symbol:hover {
+    background-color: #2ca591;
+    border-color: #2ca591;
 }
 
 .minus.symbol {
@@ -85,4 +92,10 @@
     font-size: 1.5rem;
     padding: 0;
     color: #FFFBFA;
+}
+
+.save_cart:disabled{
+    background-color:#D5CFE1;
+    border-color: #A49694;
+    cursor: not-allowed;
 }

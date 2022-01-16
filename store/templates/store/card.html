@@ -34,6 +34,7 @@ Carrito
       <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="{{my_card.cantidad}}" max="20" min="0" readonly>
       <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
     </div>
+    <button class="save_cart primary" id="save_cart{{ forloop.counter }}" disabled><p>Guardado</p></button>
     <!--<button class="primary" id="carritoButton{{ forloop.counter }}" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button>-->
     {% else %}
     <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button></a>
@@ -41,4 +42,8 @@ Carrito
   </div>
 {% endfor %}
 </div>
+{% endblock %}
+
+{% block my_scripts %}
+<script src="{% static 'store/scripts/counter.js'  %}"></script>
 {% endblock %}
