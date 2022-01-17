@@ -156,6 +156,6 @@ def  card_index(request):
             my_cart = Carro.objects.get(clienteId = card.clienteId, productoId = card.productoId)
             my_cart.cantidad = card.cantidad
             my_cart.save()
-            return HttpResponse(json.dumps(data), content_type="application/json")
+            return HttpResponse(json.dumps({'test':'test'}), content_type="application/json")
     return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id
     })
