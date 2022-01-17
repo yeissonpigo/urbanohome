@@ -114,9 +114,6 @@ def card(request):
         card_form = CardForm(request.POST)
         if card_form.is_valid():
             card = card_form.save(commit=False)
-            test = {
-                "test": "This is a test"
-            }
             my_card = Carro.objects.filter(clienteId=card.clienteId, productoId=card.productoId)
             if my_card:
                 messages.error(request, '¡Ups! Ya tienes este producto en tu carrito de compras. Para revisar tu carrito de compras, click AQUÍ.')
@@ -138,18 +135,27 @@ def card(request):
             return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card_test.html', {'card_form': card_form, })
 
-# card_index function will fetch all the objects from Carro table in database
+# card_index function will fetch all the objects from Carro table in database, but if request method is post, will update the card with the new quantity of products
 # request: Request Object
-#return a render of a new page, sending the carro info#
+#return a render of a new page, sending the carro info, or a json response to send confirmation of the request#
 
 
 def  card_index(request):
     if request.method == 'GET':
+        user = request.user.id
         my_cliente = Cliente.objects.get(user_id = request.user.id)
         my_cards = Carro.objects.filter(clienteId = my_cliente.id)
         my_productos = []
         for my_card in my_cards:
             my_product = Producto.objects.get(id = my_card.productoId.id)
             my_productos.append(my_product)
-    return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos
+    else: 
+        card_form = CardForm(request.POST)
+        if card_form.is_valid():
+            card = card_form.save(commit=False)
+            my_cart = Carro.objects.get(clienteId = card.clienteId, productoId = card.productoId)
+            my_cart.cantidad = card.cantidad
+            my_cart.save()
+            return HttpResponse(json.dumps(data), content_type="application/json")
+    return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id
     })
