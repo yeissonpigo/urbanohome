@@ -23,5 +23,5 @@ function button_on(quantityId) {
 
 function update_button (disable, text, element) {
     element.disabled = disable;
-    element.firstChild.innerHTML = text;
+    element.firstElementChild.innerText = text;
 }

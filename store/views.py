@@ -154,8 +154,25 @@ def  card_index(request):
         if card_form.is_valid():
             card = card_form.save(commit=False)
             my_cart = Carro.objects.get(clienteId = card.clienteId, productoId = card.productoId)
-            my_cart.cantidad = card.cantidad
-            my_cart.save()
-            return HttpResponse(json.dumps({'test':'test'}), content_type="application/json")
+            if my_cart:
+                messages.success(request, '¡Tu carro de compras se ha actualizado!')
+                my_cart.cantidad = card.cantidad
+                my_cart.save()
+            else:
+                messages.success(request, '¡Ups! Ha habido un error, intenta de nuevo.')
+                
+            django_messages = []
+
+            for message in messages.get_messages(request):
+                django_messages.append({
+                    "level": message.level,
+                    "message": message.message,
+                    "extra_tags": message.tags,
+            })
+                
+            data = {}
+            data['success'] = 'i dont know'
+            data['messages'] = django_messages
+            return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id
     })

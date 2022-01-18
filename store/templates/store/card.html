@@ -15,12 +15,19 @@ Carrito
 {% endblock %}
 
 {% block my_body %}
+<ul class="messages" id="messages">
+  {% if messages %}
+  {% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+  {% endif %}
+</ul>
 
 <h1>¡Tu carrito de compra!</h1>
 
 <div class="products">
-{% for my_card in my_cards %}
-<div class="product">
+  {% for my_card in my_cards %}
+  <div class="product">
     <h2>{{my_products|find_name:my_card.productoId.id}}</h2>
     <div class="container">
       <img src="{{my_products|find_name:my_card.productoId.id|image}}" alt="Imagen de un producto">
@@ -33,23 +40,66 @@ Carrito
       {% csrf_token %}
       <div class="counter">
         <input type="text" name="clienteId" required id="id_clienteId" value='{{userId}}' style="display: none;">
-        <input type="text" name="productoId" required id="id_productoId" value='{{my_products|find_id:my_card.productoId.id}}'
-        style="display: none;">
-        <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})"><p>-</p></button>
-        <input type="number" name="cantidad" id="quantity{{ forloop.counter }}" class="quantity quantity{{ forloop.counter }}" value="{{my_card.cantidad}}" max="20" min="0" readonly>
-        <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})"><p>+</p></button>
+        <input type="text" name="productoId" required id="id_productoId"
+          value='{{my_products|find_id:my_card.productoId.id}}' style="display: none;">
+        <button type="button" id="minus" class="minus symbol" onclick="minus_counter({{ forloop.counter }})">
+          <p>-</p>
+        </button>
+        <input type="number" name="cantidad" id="quantity{{ forloop.counter }}"
+          class="quantity quantity{{ forloop.counter }}" value="{{my_card.cantidad}}" max="20" min="0" readonly>
+        <button type="button" id="plus" class="plus symbol" onclick="plus_counter({{ forloop.counter }})">
+          <p>+</p>
+        </button>
       </div>
 
-      <button class="save_cart primary" id="save_cart{{ forloop.counter }}" disabled><p>Guardado</p></button>
+      <button class="save_cart primary" id="save_cart{{ forloop.counter }}" disabled>
+        <p>Guardado</p>
+      </button>
     </form>
     {% else %}
-    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i class="fas fa-shopping-cart"></i></button></a>
+    <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i
+          class="fas fa-shopping-cart"></i></button></a>
     {% endif %}
   </div>
-{% endfor %}
+  {% endfor %}
 </div>
 {% endblock %}
 
 {% block my_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var card_url = '{% url 'card_index'%}'
+  
+  {% for my_card in my_cards %}
+  $("#card_form{{ forloop.counter }}").submit(function (e) {
+    // preventing from page reload and default actions
+    e.preventDefault();
+    // serialize the data for sending the form data.
+    var serializedData = $(this).serialize();
+    // make POST ajax call
+    $.ajax({
+      type: 'POST',
+      url: card_url,
+      data: serializedData,
+      success: function (response) {
+        success = response.success;
+        myButton = document.getElementById('save_cart'+{{forloop.counter}});
+        update_button(true, 'Guardado', myButton);
+        update_messages(response.messages);
+      },
+      error: function (response) {
+        // alert the error if any error occured
+        alert(response["responseJSON"]["error"]);
+      }
+    })
+  });
+  {% endfor %}
+  function update_messages(messages) {
+    $("#messages").html("");
+    $.each(messages, function (i, m) {
+      $("#messages").append("<li class='" + m.extra_tags + "''>" + m.message + "</li>");
+    });
+  }
+</script>
 <script src="{% static 'store/scripts/counter.js'  %}"></script>
 {% endblock %}
