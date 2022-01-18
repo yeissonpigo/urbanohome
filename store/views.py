@@ -1,6 +1,6 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
 from .forms import ClienteRegistrationForm, UserRegistrationForm, Login, CardForm
 from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
@@ -39,6 +39,9 @@ def login(request):
         else:
             print(form.errors.as_text())
             messages.info(request, f"Usuario o contraseña incorrectos.")
+    else:
+        if request.user.is_authenticated:
+            return HttpResponseForbidden('No tienes acceso a este método.')
     form = Login()
     return render(request, 'store/login.html', {'login_form': form})
 
