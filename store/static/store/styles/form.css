@@ -21,6 +21,12 @@ h1{
     padding-right: 10px;
 }
 
+.payment_step {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
 .main_div > div {
     text-align: center;
 }
@@ -39,8 +45,14 @@ input, select, button {
     margin-bottom: 15px;
 }
 
-.secondary {
+.payment {
+    display: block;
     width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.secondary {
     color: #34C4AB;
     border: 2px solid #34C4AB;
     font-weight: bolder;
@@ -52,6 +64,7 @@ input, select, button {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 
 .primary {
     color: #FFFBFA;
