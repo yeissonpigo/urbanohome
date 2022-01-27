@@ -1,7 +1,8 @@
+from wsgiref import validate
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
-from .forms import ClienteRegistrationForm, UserRegistrationForm, Login, CardForm
+from .forms import ClienteRegistrationForm, UserRegistrationForm, Login, CardForm, DeleteCardForm
 from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
@@ -123,18 +124,7 @@ def card(request):
             else:
                 messages.success(request, '¡Tu producto se ha añadido correctamente!')
                 card = card_form.save()
-            django_messages = []
-
-            for message in messages.get_messages(request):
-                django_messages.append({
-                    "level": message.level,
-                    "message": message.message,
-                    "extra_tags": message.tags,
-            })
-                
-            data = {}
-            data['success'] = 'i dont know'
-            data['messages'] = django_messages
+            data = send_message(messages.get_messages(request))
             return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card_test.html', {'card_form': card_form, })
 
@@ -164,18 +154,37 @@ def  card_index(request):
             else:
                 messages.success(request, '¡Ups! Ha habido un error, intenta de nuevo.')
                 
-            django_messages = []
-
-            for message in messages.get_messages(request):
-                django_messages.append({
-                    "level": message.level,
-                    "message": message.message,
-                    "extra_tags": message.tags,
-            })
-                
-            data = {}
-            data['success'] = 'i dont know'
-            data['messages'] = django_messages
+            data = send_message(messages.get_messages(request))
             return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id
     })
+    
+def delete_cart(request):
+    if request.method == 'POST':
+        delete_form = DeleteCardForm(request.POST)
+        if delete_form.is_valid():
+            my_cart = Carro.objects.get(clienteId = delete_form.clienteId, productoId = delete_form.productoId)
+            deleted = my_cart.delete()
+            if deleted[0] > 0:
+                messages.success(request, 'El producto se ha eliminado de manera satisfactoria')
+            else:
+                messages.error(request, 'Lo sentimos, algo ha sucedido. Intenta nuevamente.')
+            
+            data = send_message(messages.get_messages(request))
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        
+def send_message(messages):
+    django_messages = []
+
+    for message in messages:
+        django_messages.append({
+            "level": message.level,
+            "message": message.message,
+            "extra_tags": message.tags,
+    })
+        
+    data = {}
+    data['success'] = 'info'
+    data['messages'] = django_messages
+    
+    return data

@@ -56,6 +56,9 @@ Carrito
         <p>Guardado</p>
       </button>
     </form>
+    <form action="">
+      <button class="secondary">Eliminar</button>
+    </form>
     {% else %}
     <a href="{% url 'register' %}"><button class="primary" style="width: 70%;"> Añadir <i
           class="fas fa-shopping-cart"></i></button></a>
@@ -64,7 +67,7 @@ Carrito
   {% endfor %}
 </div>
 <div class="payment_step">
-  <button class="primary payment">Realizar compra</button>
+  <button class="primary payment">Realizar pago</button>
   <button class="secondary payment">Seguir comprando</button>
 </div>
 {% endblock %}
