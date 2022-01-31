@@ -27,7 +27,7 @@ Carrito
 
 <div class="products">
   {% for my_card in my_cards %}
-  <div class="product">
+  <div class="product" id="{{ forloop.counter }}">
     <h2>{{my_products|find_name:my_card.productoId.id}}</h2>
     <div class="container">
       <img src="{{my_products|find_name:my_card.productoId.id|image}}" alt="Imagen de un producto">
@@ -56,7 +56,11 @@ Carrito
         <p>Guardado</p>
       </button>
     </form>
-    <form action="">
+    <form action="{% url 'delete_card'%}" method="POST" id="delete_form{{ forloop.counter }}">
+      {% csrf_token %}
+      <input type="text" name="clienteId" required id="id_clienteId" value='{{userId}}' style="display: none;">
+      <input type="text" name="productoId" required id="id_productoId"
+        value='{{my_products|find_id:my_card.productoId.id}}' style="display: none;">
       <button class="secondary">Eliminar</button>
     </form>
     {% else %}
@@ -76,6 +80,7 @@ Carrito
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
   var card_url = '{% url 'card_index'%}'
+  var delete_url = '{% url 'delete_card'%}'
   
   {% for my_card in my_cards %}
   $("#card_form{{ forloop.counter }}").submit(function (e) {
@@ -100,7 +105,35 @@ Carrito
       }
     })
   });
+
+  $("#delete_form{{ forloop.counter }}").submit(function (e) {
+    // preventing from page reload and default actions
+    e.preventDefault();
+    // serialize the data for sending the form data.
+    var serializedData = $(this).serialize();
+    // make POST ajax call
+    $.ajax({
+      type: 'POST',
+      url: delete_url,
+      data: serializedData,
+      success: function (response) {
+        success = response.success;
+        myCard = document.getElementById({{forloop.counter}});
+        delete_product_card(myCard);
+        update_messages(response.messages);
+      },
+      error: function (response) {
+        // alert the error if any error occured
+        alert(response["responseJSON"]["error"]);
+      }
+    })
+  });
   {% endfor %}
+
+  function delete_product_card(card){
+    card.remove();
+  }
+
   function update_messages(messages) {
     $("#messages").html("");
     $.each(messages, function (i, m) {

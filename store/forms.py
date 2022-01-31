@@ -57,9 +57,6 @@ class CardForm(forms.ModelForm):
         
 class DeleteCardForm(forms.ModelForm):
     
-    clienteId = forms.IntegerField()
-    carroId = forms.IntegerField()
-    
     class Meta:
         model = Carro
         fields = ('clienteId', 'productoId')

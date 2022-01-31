@@ -156,22 +156,27 @@ def  card_index(request):
                 
             data = send_message(messages.get_messages(request))
             return HttpResponse(json.dumps(data), content_type="application/json")
-    return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id
+    return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente
     })
     
 def delete_cart(request):
+    print('entró a este punto 1')
     if request.method == 'POST':
-        delete_form = DeleteCardForm(request.POST)
+        print('entró a este punto 2')
+        delete_form = DeleteCardForm(data=request.POST)
+        print(delete_form.errors)
+        print(delete_form.is_valid())
         if delete_form.is_valid():
-            my_cart = Carro.objects.get(clienteId = delete_form.clienteId, productoId = delete_form.productoId)
+            my_cart = Carro.objects.get(clienteId = delete_form.instance.clienteId, productoId = delete_form.instance.productoId)
             deleted = my_cart.delete()
             if deleted[0] > 0:
                 messages.success(request, 'El producto se ha eliminado de manera satisfactoria')
             else:
                 messages.error(request, 'Lo sentimos, algo ha sucedido. Intenta nuevamente.')
-            
-            data = send_message(messages.get_messages(request))
-            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            messages.error(request, 'Lo sentimos, hubo un error, por favor intenta nuevamente más tarde.')
+        data = send_message(messages.get_messages(request))
+        return HttpResponse(json.dumps(data), content_type="application/json")
         
 def send_message(messages):
     django_messages = []
