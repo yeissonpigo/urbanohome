@@ -86,9 +86,11 @@
 </header>
 
 <body>
+    {% if user.is_authenticated %}
     <div class="cart_setting_father">
         <a href="{% url 'card_index' %}"><i class="fas fa-cart-arrow-down" id="cart_setting"></i></a>
-    </div>
+    </div>}
+    {% endif %}
 
     {% block my_body %}{% endblock %}
     {% block my_scripts %}{% endblock %}
