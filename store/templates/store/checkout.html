@@ -1,0 +1,17 @@
+{% extends 'store/base.html'  %}
+{% load static %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block my_body %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+  Acá va a estar la descripción del pedido
+{% endblock %}

@@ -223,3 +223,10 @@ def send_message(messages):
     data['messages'] = django_messages
 
     return data
+
+def checkout(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    elif request.method == 'GET':
+        
+        return render(request, 'store/checkout.html')

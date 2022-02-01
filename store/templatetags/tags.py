@@ -20,3 +20,10 @@ def precio_venta(producto):
 @register.filter
 def image(producto):
     return producto.imagen.url
+
+@register.filter
+def total(productos):
+    total = 0
+    for producto in productos:
+        total += producto.precio_venta
+    return total
