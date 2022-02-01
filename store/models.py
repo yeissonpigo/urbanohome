@@ -1,7 +1,9 @@
+from datetime import datetime
 from django.db import models
 from django.db.models.base import Model
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE, PROTECT, SET_NULL
+from django.forms import FloatField
 
 # Create your models here.
 
@@ -65,4 +67,20 @@ class Producto (models.Model):
 class Carro(models.Model):
     clienteId = models.ForeignKey(Cliente, on_delete=PROTECT)
     productoId = models.ForeignKey(Producto, on_delete=PROTECT)
+    cantidad = models.IntegerField()
+    
+class Estado(models.Model):
+    nombre = models.CharField(max_length=25)
+    descripcion = models.CharField(max_length=250)
+    
+class Venta(models.Model):
+    clienteId = models.ForeignKey(Cliente, on_delete=PROTECT)
+    fecha = models.DateTimeField(auto_now_add=True)
+    total = models.FloatField()
+    estadoId = models.ForeignKey(Estado, on_delete=PROTECT)
+    
+class Pedido(models.Model):
+    ventaId = models.ForeignKey(Venta, on_delete=PROTECT)
+    productoId = models.ForeignKey(Producto, on_delete=PROTECT)
+    precio_unidad = models.FloatField()
     cantidad = models.IntegerField()

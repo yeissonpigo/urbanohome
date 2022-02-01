@@ -71,8 +71,14 @@ Carrito
   {% endfor %}
 </div>
 <div class="payment_step">
-  <button class="primary payment">Realizar pago</button>
-  <button class="secondary payment">Seguir comprando</button>
+  <form action="">
+    {% csrf_token %}
+    <input type="text" name="clienteId" required id="id_clienteId" value='{{userId}}' style="display: none;">
+    <button class="primary payment">Realizar pago</button>
+  </form>
+  <form action="{% url 'items' %}" method="get">
+    <button class="secondary payment">Seguir comprando</button>
+  </form>
 </div>
 {% endblock %}
 

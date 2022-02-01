@@ -1,7 +1,7 @@
 from django import forms
 from django.db import models
 from django.db.models import fields
-from .models import Cliente, User, TipoIdentificacion, Carro
+from .models import Cliente, User, TipoIdentificacion, Carro, Pedido, Venta
 from django.contrib.auth.forms import AuthenticationForm
 
 class UserRegistrationForm(forms.ModelForm):
@@ -60,3 +60,9 @@ class DeleteCardForm(forms.ModelForm):
     class Meta:
         model = Carro
         fields = ('clienteId', 'productoId')
+        
+class CreatePurchase(forms.ModelForm):
+    
+    class Meta:
+        model = Venta
+        fields = ('clienteId', 'total', 'estadoId')
