@@ -5,6 +5,10 @@
     Checkout
 {% endblock %}
 
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
+{% endblock %}
+
 {% block my_body %}
 {% if messages %}
   <ul class="messages">
@@ -13,5 +17,6 @@
     {% endfor %}
   </ul>
 {% endif %}
-  Acá va a estar la descripción del pedido
+  <h1>Resumen del pedido</h1>
+  <p>Nombre del cliente: {{ user }}</p>
 {% endblock %}
