@@ -8,9 +8,11 @@ class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
     password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Contraseña'}))
     confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirmar contraseña'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Nombres reales'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Apellidos reales'}))
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username', 'password', 'first_name', 'last_name']
         
     def clean(self):
         cleaned_data = super(UserRegistrationForm, self).clean()
