@@ -1,5 +1,8 @@
 {% extends 'store/base.html'  %}
 {% load static %}
+{% load i18n %}
+{% load humanize %}
+{% load tags %}
 
 {% block title %}
     Checkout
@@ -7,6 +10,7 @@
 
 {% block my_css %}
 <link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
 {% endblock %}
 
 {% block my_body %}
@@ -18,5 +22,27 @@
   </ul>
 {% endif %}
   <h1>Resumen del pedido</h1>
-  <p>Nombre del cliente: {{ user }}</p>
+  <p>Nombre del cliente: {{ user.first_name }}, {{ user.last_name }} <br>
+  Nombre del vendedor: UrbanoHome <br>
+  Fecha: {% language 'es' %}{% now "d F Y H:i" %}{% endlanguage %}</p>
+  <br>
+  <h2>Artículos</h2>
+  <table>
+    <tr>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Valor Unitario</th>
+      <th>Valor total</th>
+    </tr>
+  {% for product in products %}
+  <tr>
+    <td>{{product.0}}</td>
+    <td>{{product.1}}</td>
+    <td>{{product.0.precio_venta|floatformat|intcomma}}</td>
+    <td>{{product|calcular_total|floatformat|intcomma}}</td>
+  </tr>
+  {% endfor %}
+  </table>
+
+  <p><strong>TOTAL: {{products|calcular_suma|floatformat|intcomma}}</strong></p>
 {% endblock %}

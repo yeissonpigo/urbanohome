@@ -228,5 +228,12 @@ def checkout(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('No tienes acceso a este método.')
     elif request.method == 'GET':
-        
-        return render(request, 'store/checkout.html')
+        userId = request.user.id
+        cliente = Cliente.objects.get(user_id = userId)
+        carros = Carro.objects.filter(clienteId = cliente.id)
+        productos_to_send = []
+        for carro in carros:
+            producto = Producto.objects.get(id = carro.productoId.id)
+            productos_to_send.append((producto, carro.cantidad))
+        print(productos_to_send)
+        return render(request, 'store/checkout.html', {'products': productos_to_send})

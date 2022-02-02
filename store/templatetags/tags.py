@@ -27,3 +27,15 @@ def total(productos):
     for producto in productos:
         total += producto.precio_venta
     return total
+
+@register.filter
+def calcular_total(product):
+    total = product[0].precio_venta * product[1]
+    return total
+
+@register.filter
+def calcular_suma(products):
+    total = 0
+    for prod in products:
+        total += prod[0].precio_venta * prod[1]
+    return total
