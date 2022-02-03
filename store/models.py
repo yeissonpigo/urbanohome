@@ -84,3 +84,4 @@ class Pedido(models.Model):
     productoId = models.ForeignKey(Producto, on_delete=PROTECT)
     precio_unidad = models.FloatField()
     cantidad = models.IntegerField()
+    direccion = models.CharField(max_length=280, null=False)
