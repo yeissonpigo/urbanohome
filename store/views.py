@@ -1,13 +1,14 @@
+from hashlib import new
 from wsgiref import validate
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
-from .forms import ClienteRegistrationForm, UserRegistrationForm, Login, CardForm, DeleteCardForm
+from .forms import ClienteRegistrationForm, CreatePurchase, UserRegistrationForm, Login, CardForm, DeleteCardForm, CreatePurchase
 from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
-from .models import Producto, User, Cliente, Carro
+from .models import Producto, User, Cliente, Carro, Estado, Venta
 import json
 
 # Create your views here.
@@ -85,7 +86,7 @@ def register(request):
                 print(cliente_registration_form.is_valid())
 
                 if cliente_registration_form.is_valid():
-                    cliente = cliente_registration_form.save()
+                    cliente_registration_form.save()
                     return redirect('register_success')
         return render(request, 'store/register.html', {'cliente_form': cliente_registration_form,
                                                        'user_form': user_registration_form})
@@ -224,6 +225,12 @@ def send_message(messages):
 
     return data
 
+'''
+checkout is going to take care of the resume of pedido. 
+request: request del http
+return render of checkout.html, with products variable.
+'''
+
 def checkout(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('No tienes acceso a este método.')
@@ -235,5 +242,34 @@ def checkout(request):
         for carro in carros:
             producto = Producto.objects.get(id = carro.productoId.id)
             productos_to_send.append((producto, carro.cantidad))
-        print(productos_to_send)
         return render(request, 'store/checkout.html', {'products': productos_to_send})
+    
+    
+'''
+finish_purchase se encarga de crear la venta, la cual espera en futuros pasos cambiar su estado.
+request: request object
+return template
+'''
+def finish_purchase(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'POST':
+            venta = CreatePurchase(request.POST)
+            
+            if venta.is_valid():
+                new_venta = venta.save(commit=False)
+                cliente = Cliente.objects.get(user_id = request.user.id)
+                new_venta.clienteId = cliente
+                new_venta.estadoId = Estado.objects.get(id = 1)
+                carros = Carro.objects.filter(clienteId = cliente.id)
+                
+                total = 0
+                for carro in carros:
+                    producto = carro.productoId
+                    total += producto.precio_venta * carro.cantidad
+                
+                new_venta.total = total
+                new_venta.save()
+                return render(request, 'store/register_success.html')
+        

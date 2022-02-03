@@ -67,4 +67,4 @@ class CreatePurchase(forms.ModelForm):
     
     class Meta:
         model = Venta
-        fields = ('clienteId', 'total', 'estadoId')
+        fields = ('direccion',)

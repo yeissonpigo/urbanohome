@@ -11,6 +11,7 @@
 {% block my_css %}
 <link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
 <link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
 {% endblock %}
 
 {% block my_body %}
@@ -45,4 +46,16 @@
   </table>
 
   <p><strong>TOTAL: {{products|calcular_suma|floatformat|intcomma}}</strong></p>
+
+    <div class="main_div">
+      <form action="{% url 'finishpurchase' %}" method="post">
+        <h1>Información Requerida:</h1>
+        {%csrf_token%}
+        <input type="text" maxlength="280" placeholder="Dirección de entrega" style="margin-top: 15px; text-align: center; padding: 10px 0;" name="direccion" id="direccionId">
+        <button class="primary">Pagar</button>
+      </form>
+      <form action="{% url 'items' %}">
+        <button class="secondary">Volver a la tienda</button>
+      </form>
+    </div>
 {% endblock %}
