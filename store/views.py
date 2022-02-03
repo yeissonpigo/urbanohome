@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
-from .models import Producto, User, Cliente, Carro, Estado, Venta
+from .models import Producto, User, Cliente, Carro, Estado, Venta, Pedido
 import json
 
 # Create your views here.
@@ -265,11 +265,22 @@ def finish_purchase(request):
                 carros = Carro.objects.filter(clienteId = cliente.id)
                 
                 total = 0
+                new_pedido = 0
                 for carro in carros:
                     producto = carro.productoId
                     total += producto.precio_venta * carro.cantidad
                 
                 new_venta.total = total
                 new_venta.save()
+                
+                for carro in carros:
+                    producto = carro.productoId
+                    new_pedido = Pedido()
+                    new_pedido.precio_unidad = producto.precio_venta
+                    new_pedido.cantidad = carro.cantidad
+                    new_pedido.productoId = producto
+                    new_pedido.ventaId = new_venta
+                    new_pedido.save()
+                
                 return render(request, 'store/register_success.html')
         
