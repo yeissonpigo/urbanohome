@@ -78,10 +78,10 @@ class Venta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.FloatField()
     estadoId = models.ForeignKey(Estado, on_delete=PROTECT)
+    direccion = models.CharField(max_length=280, null=False)
     
 class Pedido(models.Model):
     ventaId = models.ForeignKey(Venta, on_delete=PROTECT)
     productoId = models.ForeignKey(Producto, on_delete=PROTECT)
     precio_unidad = models.FloatField()
     cantidad = models.IntegerField()
-    direccion = models.CharField(max_length=280, null=False)
