@@ -282,5 +282,10 @@ def finish_purchase(request):
                     new_pedido.ventaId = new_venta
                     new_pedido.save()
                 
-                return render(request, 'store/register_success.html')
+                return render(request, 'store/fake_payment.html')
         
+'''
+
+'''
+def update_venta(request):
+    print()
