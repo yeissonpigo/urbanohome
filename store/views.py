@@ -257,38 +257,37 @@ def finish_purchase(request):
             
             cliente = Cliente.objects.get(user_id = request.user.id)
             
-            if len(Venta.objects.filter(clienteId = cliente)) == 0:
-                venta = CreatePurchase(request.POST)
+            if len(Venta.objects.filter(clienteId = cliente)) == 1:
+                cancel = delete_venta(request)
+            
+            venta = CreatePurchase(request.POST)
                 
-                if venta.is_valid():
-                    new_venta = venta.save(commit=False)
-                    cliente = Cliente.objects.get(user_id = request.user.id)
-                    new_venta.clienteId = cliente
-                    new_venta.estadoId = Estado.objects.get(id = 1)
-                    carros = Carro.objects.filter(clienteId = cliente.id)
-                    
-                    total = 0
-                    new_pedido = 0
-                    for carro in carros:
-                        producto = carro.productoId
-                        total += producto.precio_venta * carro.cantidad
-                    
-                    new_venta.total = total
-                    new_venta.save()
-                    
-                    for carro in carros:
-                        producto = carro.productoId
-                        new_pedido = Pedido()
-                        new_pedido.precio_unidad = producto.precio_venta
-                        new_pedido.cantidad = carro.cantidad
-                        new_pedido.productoId = producto
-                        new_pedido.ventaId = new_venta
-                        new_pedido.save()
-                    
-                    return render(request, 'store/fake_payment.html')
-            else:
-                messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
-                return redirect('checkout')
+            if venta.is_valid():
+                new_venta = venta.save(commit=False)
+                cliente = Cliente.objects.get(user_id = request.user.id)
+                new_venta.clienteId = cliente
+                new_venta.estadoId = Estado.objects.get(id = 1)
+                carros = Carro.objects.filter(clienteId = cliente.id)
+                
+                total = 0
+                new_pedido = 0
+                for carro in carros:
+                    producto = carro.productoId
+                    total += producto.precio_venta * carro.cantidad
+                
+                new_venta.total = total
+                new_venta.save()
+                
+                for carro in carros:
+                    producto = carro.productoId
+                    new_pedido = Pedido()
+                    new_pedido.precio_unidad = producto.precio_venta
+                    new_pedido.cantidad = carro.cantidad
+                    new_pedido.productoId = producto
+                    new_pedido.ventaId = new_venta
+                    new_pedido.save()
+                
+                return render(request, 'store/fake_payment.html')
         
 '''
 delete_venta assure you to only have 1 venta and pedido per
