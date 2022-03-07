@@ -307,4 +307,4 @@ def delete_venta(request):
             deleted.append(my_pedido.delete())
             deleted.append(my_venta.delete())
             
-            return HttpResponse('Funciona')
+            return redirect('/items/')
