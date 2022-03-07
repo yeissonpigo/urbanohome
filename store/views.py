@@ -39,7 +39,6 @@ def login(request):
             else:
                 messages.info(request, f"Usuario o contraseña incorrectos.")
         else:
-            print(form.errors.as_text())
             messages.info(request, f"Usuario o contraseña incorrectos.")
     else:
         if request.user.is_authenticated:
@@ -255,32 +254,44 @@ def finish_purchase(request):
         return HttpResponseForbidden('No tienes acceso a este método.')
     else:
         if request.method == 'POST':
-            venta = CreatePurchase(request.POST)
             
-            if venta.is_valid():
-                new_venta = venta.save(commit=False)
-                cliente = Cliente.objects.get(user_id = request.user.id)
-                new_venta.clienteId = cliente
-                new_venta.estadoId = Estado.objects.get(id = 1)
-                carros = Carro.objects.filter(clienteId = cliente.id)
+            cliente = Cliente.objects.get(user_id = request.user.id)
+            
+            if len(Venta.objects.filter(clienteId = cliente)) == 0:
+                venta = CreatePurchase(request.POST)
                 
-                total = 0
-                new_pedido = 0
-                for carro in carros:
-                    producto = carro.productoId
-                    total += producto.precio_venta * carro.cantidad
-                
-                new_venta.total = total
-                new_venta.save()
-                
-                for carro in carros:
-                    producto = carro.productoId
-                    new_pedido = Pedido()
-                    new_pedido.precio_unidad = producto.precio_venta
-                    new_pedido.cantidad = carro.cantidad
-                    new_pedido.productoId = producto
-                    new_pedido.ventaId = new_venta
-                    new_pedido.save()
-                
-                return render(request, 'store/register_success.html')
+                if venta.is_valid():
+                    new_venta = venta.save(commit=False)
+                    cliente = Cliente.objects.get(user_id = request.user.id)
+                    new_venta.clienteId = cliente
+                    new_venta.estadoId = Estado.objects.get(id = 1)
+                    carros = Carro.objects.filter(clienteId = cliente.id)
+                    
+                    total = 0
+                    new_pedido = 0
+                    for carro in carros:
+                        producto = carro.productoId
+                        total += producto.precio_venta * carro.cantidad
+                    
+                    new_venta.total = total
+                    new_venta.save()
+                    
+                    for carro in carros:
+                        producto = carro.productoId
+                        new_pedido = Pedido()
+                        new_pedido.precio_unidad = producto.precio_venta
+                        new_pedido.cantidad = carro.cantidad
+                        new_pedido.productoId = producto
+                        new_pedido.ventaId = new_venta
+                        new_pedido.save()
+                    
+                    return render(request, 'store/fake_payment.html')
+            else:
+                messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
+                return redirect('checkout')
         
+'''
+
+'''
+def update_venta(request):
+    print()
