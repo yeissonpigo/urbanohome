@@ -291,7 +291,21 @@ def finish_purchase(request):
                 return redirect('checkout')
         
 '''
-
+delete_venta assure you to only have 1 venta and pedido per
+user to avoid duplicates
+@request Request object
+return store view.
 '''
-def update_venta(request):
-    print()
+def delete_venta(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'POST':
+            cliente = Cliente.objects.get(user_id = request.user.id)
+            my_venta = Venta.objects.get(clienteId = cliente.id, estadoId = 1)
+            my_pedido = Pedido.objects.get(ventaId = my_venta)
+            deleted = []
+            deleted.append(my_pedido.delete())
+            deleted.append(my_venta.delete())
+            
+            return ('Funciona')

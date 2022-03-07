@@ -27,8 +27,9 @@
         <form action="" method="post">
             <button class="primary">Pagar</button>
         </form>
-        <form action="" method="post">
-            <button class="secondary">No pagar</button>
+        <form action="{% url 'cancelpurchase' %}" method="post">
+          {%csrf_token%}
+          <button class="secondary">No pagar</button>
         </form>
     </div>
 {% endblock %}
