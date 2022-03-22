@@ -8,6 +8,7 @@ Galería
 {% block my_css %}
 <link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
 <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/gallery.css' %}">
 {% endblock %}
 
 {% block my_body %}
@@ -18,14 +19,11 @@ Galería
   {% endfor %}
 </ul>
 {% endif %}
-<div class="landing_container">
-  <img class="landing" src="{% static 'store/images/landing.png' %}" alt="Image of cactus">
-  <div class="landing_text">
-    <p>¡Bienvenido a UrbanoHome! <br>
-    Contamos con los mejores productos.</p>
-    <a href="{%url 'items'%}">
-      <button class="primary" style="font-size: 1.5rem; max-width: 250px;">Tienda online</button>
-    </a>
-  </div>
+<div class="container">
+    <div class="gallery">
+        {% for image in gallery %}
+        <img src="{{image.imagen.url}}" alt="Imagen que forma parte de la galería">
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

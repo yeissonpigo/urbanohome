@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login as loginAuth, authenticate, logout as logoutAuth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
-from .models import Producto, User, Cliente, Carro, Estado, Venta, Pedido
+from .models import *
 import json
 
 # Create your views here.
@@ -19,7 +19,8 @@ def index(request):
 
 #Return gallery view
 def gallery(request):
-    return render(request, 'store/gallery.html')
+    gallery = Galeria.objects.all()
+    return render(request, 'store/gallery.html', {'gallery': gallery},)
 
 # Login function takes care of user's login.
 # request: Request object
