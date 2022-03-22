@@ -14,8 +14,8 @@ import json
 # Create your views here.
 
 
-def index(HttpResponse):
-    return f'hello'
+def index(request):
+    return render(request, 'store/home.html')
 
 # Login function takes care of user's login.
 # request: Request object
