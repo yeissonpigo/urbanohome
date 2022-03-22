@@ -15,4 +15,5 @@ urlpatterns = [
     path('finishpurchase/', views.finish_purchase, name='finishpurchase'),
     path('cancelpurchase/', views.delete_venta, name='cancelpurchase'),
     path('', views.index, name='home'),
+    path('gallery/', views.gallery, name='gallery'),
 ]

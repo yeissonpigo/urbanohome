@@ -85,3 +85,6 @@ class Pedido(models.Model):
     productoId = models.ForeignKey(Producto, on_delete=PROTECT)
     precio_unidad = models.FloatField()
     cantidad = models.IntegerField()
+    
+class Galeria(models.Model):
+    imagen = models.FileField(upload_to='media/')
