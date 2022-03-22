@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-^+h*!-%ewsdx3q&jk$%bv4tva5eyliacw#^rc-fgey$phf6fzo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [urbanohome-c3sd4.ondigitalocean.app]
+ALLOWED_HOSTS = ['urbanohome-c3sd4.ondigitalocean.app']
 
 
 # Application definition
