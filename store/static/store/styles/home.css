@@ -1,11 +1,15 @@
 .landing_container {
     margin: auto;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .landing {
     display: block;
     margin: auto;
-    margin-top: 70px;
     width: 60%;
     max-width: 500px;
 }
@@ -13,6 +17,7 @@
 .landing_text {
     margin-top: 10px;
     color: #34C4AB;
+    margin: auto;
     font-size: 2.1rem;
     text-align: center;
 }
