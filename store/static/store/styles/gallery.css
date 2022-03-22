@@ -1,6 +1,3 @@
-.container {
-}
-
 .gallery {
     display: flex;
     flex-direction: row;
@@ -10,6 +7,17 @@
     margin: auto;
     margin-top: 40px;
     justify-content:center;
+}
+
+.gallery:hover img{
+    -webkit-filter: blur(2px); /* Safari 6.0 - 9.0 */
+    filter: blur(2px);
+    transition: filter .5s;
+}
+
+.gallery:hover img:hover{
+    -webkit-filter: blur(0px); /* Safari 6.0 - 9.0 */
+    filter: blur(0px);
 }
 
 .gallery img {
