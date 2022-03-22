@@ -17,7 +17,7 @@
 <header>
     <ul class="navbar first">
         <li>
-            <a href="#">UH</a>
+            <a href="{%url 'home'%}">UH</a>
         </li>
         <li>
             <a href="#" onclick="active_navbar()">
@@ -32,12 +32,12 @@
         <ul class="navbar options slide" id="navbar">
             <li class="item">
                 <div class="center__div">
-                    <a href="#" class="logo">UH</a>
+                    <a href="{% url 'home' %}" class="logo">UH</a>
                 </div>
             </li>
             <li class="item">
                 <div class="center__div">
-                    <a href="#">Home</a>
+                    <a href="{% url 'home' %}">Home</a>
                 </div>
             </li>
             <li class="item">
@@ -89,7 +89,7 @@
     {% if user.is_authenticated %}
     <div class="cart_setting_father">
         <a href="{% url 'card_index' %}"><i class="fas fa-cart-arrow-down" id="cart_setting"></i></a>
-    </div>}
+    </div>
     {% endif %}
 
     {% block my_body %}{% endblock %}

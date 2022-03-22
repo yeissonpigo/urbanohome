@@ -13,5 +13,6 @@ urlpatterns = [
     path('delete_cart/', views.delete_cart, name='delete_card'),
     path('checkout/', views.checkout, name='checkout'),
     path('finishpurchase/', views.finish_purchase, name='finishpurchase'),
-    path('cancelpurchase/', views.delete_venta, name='cancelpurchase')
+    path('cancelpurchase/', views.delete_venta, name='cancelpurchase'),
+    path('', views.index, name='home'),
 ]
