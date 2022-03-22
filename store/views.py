@@ -17,6 +17,10 @@ import json
 def index(request):
     return render(request, 'store/home.html')
 
+#Return gallery view
+def gallery(request):
+    return render(request, 'store/gallery.html')
+
 # Login function takes care of user's login.
 # request: Request object
 # return a message of success with a redirect to a new page

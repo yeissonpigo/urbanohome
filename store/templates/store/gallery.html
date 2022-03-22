@@ -1,0 +1,31 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+Galería
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+{% endblock %}
+
+{% block my_body %}
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+<div class="landing_container">
+  <img class="landing" src="{% static 'store/images/landing.png' %}" alt="Image of cactus">
+  <div class="landing_text">
+    <p>¡Bienvenido a UrbanoHome! <br>
+    Contamos con los mejores productos.</p>
+    <a href="{%url 'items'%}">
+      <button class="primary" style="font-size: 1.5rem; max-width: 250px;">Tienda online</button>
+    </a>
+  </div>
+</div>
+{% endblock %}
