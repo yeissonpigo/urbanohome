@@ -1,0 +1,18 @@
+.landing_container {
+    margin: auto;
+}
+
+.landing {
+    display: block;
+    margin: auto;
+    margin-top: 70px;
+    width: 60%;
+    max-width: 500px;
+}
+
+.landing_text {
+    margin-top: 10px;
+    color: #34C4AB;
+    font-size: 2.1rem;
+    text-align: center;
+}

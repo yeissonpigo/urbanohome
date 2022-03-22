@@ -1,0 +1,29 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
+{% endblock %}
+
+{% block my_body %}
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+<div class="landing_container">
+  <img class="landing" src="{% static 'store/images/landing.png' %}" alt="Image of cactus">
+  <div class="landing_text">
+    <p>Bienvenido a nuestra</p>
+    <a href="">
+      <button>Tienda online</button>
+    </a>
+  </div>
+</div>
+{% endblock %}
