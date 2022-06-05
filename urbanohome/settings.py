@@ -30,8 +30,10 @@ SECRET_KEY = 'django-insecure-^+h*!-%ewsdx3q&jk$%bv4tva5eyliacw#^rc-fgey$phf6fzo
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['urbanohome-c3sd4.ondigitalocean.app']
+USE_S3 = False
+if USE_S3:
+    ALLOWED_HOSTS = ['urbanohome-c3sd4.ondigitalocean.app']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -88,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'urbanohome', 
         'USER': 'postgres', 
-        'PASSWORD': 'MotoCasa12',
+        'PASSWORD': 'MotoCasa123!',
         'HOST': '127.0.0.1', 
         'PORT': '5432',
     }
@@ -156,7 +158,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-USE_S3 = True
 if USE_S3:
     # aws settings
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
