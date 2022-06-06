@@ -48,10 +48,26 @@
   <p><strong>TOTAL: {{products|calcular_suma|floatformat|intcomma}}</strong></p>
 
     <div class="main_div">
-      <form action="{% url 'finishpurchase' %}" method="post">
+      <form action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" method="post">
         <h1>Información Requerida:</h1>
         {%csrf_token%}
-        <input type="text" maxlength="280" placeholder="Dirección de entrega" style="margin-top: 15px; text-align: center; padding: 10px 0;" name="direccion" id="direccionId">
+        <input name="merchantId"      type="hidden"  placeholder="972601"   >
+        <input name="accountId"       type="hidden"  placeholder="980489" >
+        <input name="description"     type="hidden"  placeholder="Test PAYU"  >
+        <input name="referenceCode"   type="hidden"  placeholder="" >
+        <input name="amount"          type="hidden"  placeholder=""   >
+        <input name="tax"             type="hidden"  placeholder=""  >
+        <input name="taxReturnBase"   type="hidden"  placeholder="" >
+        <input name="currency"        type="hidden"  placeholder="" >
+        <input name="signature"       type="hidden"  placeholder=""  >
+        <input name="test"            type="hidden"  placeholder="" >
+        <input name="buyerEmail"      type="hidden"  placeholder="" >
+        <input name="responseUrl"     type="hidden"  placeholder="http://www.test.com/response" >
+        <input name="confirmationUrl" type="hidden"  placeholder="http://www.test.com/confirmation" >
+        <input name="Submit"          type="submit"  placeholder="" >
+        <input name="shippingAddress"    type="hidden"  placeholder="calle 93 n 47 - 65"   >
+        <input name="shippingCity"       type="hidden"  placeholder="" >
+        <input name="shippingCountry"    type="hidden"  placeholder=""  >      
         <button class="primary">Pagar</button>
       </form>
       <form action="{% url 'items' %}">
