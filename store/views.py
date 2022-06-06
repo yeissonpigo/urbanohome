@@ -246,7 +246,7 @@ def checkout(request):
         for venta in ventas:
             producto = Producto.objects.get(id = venta.productoId.id)
             productos_to_send.append((producto, venta.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta.id})
+        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta[0].id})
     
     
 '''
