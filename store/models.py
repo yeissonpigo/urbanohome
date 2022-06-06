@@ -72,6 +72,9 @@ class Carro(models.Model):
 class Estado(models.Model):
     nombre = models.CharField(max_length=25)
     descripcion = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f'{self.nombre}'
     
 class Venta(models.Model):
     clienteId = models.ForeignKey(Cliente, on_delete=PROTECT)
@@ -79,6 +82,9 @@ class Venta(models.Model):
     total = models.FloatField()
     estadoId = models.ForeignKey(Estado, on_delete=PROTECT)
     direccion = models.CharField(max_length=280, null=False)
+
+    def __str__(self):
+        return f'{self.id}'
     
 class Pedido(models.Model):
     ventaId = models.ForeignKey(Venta, on_delete=PROTECT)
