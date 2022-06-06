@@ -241,12 +241,12 @@ def checkout(request):
     elif request.method == 'GET':
         userId = request.user.id
         cliente = Cliente.objects.get(user_id = userId)
-        carros = Carro.objects.filter(clienteId = cliente.id)
+        ventas = Carro.objects.get(clienteId = cliente.id)
         productos_to_send = []
-        for carro in carros:
-            producto = Producto.objects.get(id = carro.productoId.id)
-            productos_to_send.append((producto, carro.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send})
+        for venta in ventas:
+            producto = Producto.objects.get(id = venta.productoId.id)
+            productos_to_send.append((producto, venta.cantidad))
+        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta.id})
     
     
 '''
