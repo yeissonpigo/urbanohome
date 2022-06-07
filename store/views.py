@@ -10,6 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 from .models import *
 import json
+import hashlib
+from datetime import date
 
 # Create your views here.
 
@@ -241,59 +243,73 @@ def checkout(request):
     elif request.method == 'GET':
         userId = request.user.id
         cliente = Cliente.objects.get(user_id = userId)
-        carros = Carro.objects.filter(clienteId = cliente.id)
+        total = get_total(cliente)
+        create_venta(userId, total, request)
+        ventas = Venta.objects.get(clienteId = cliente.id)
+        reference = generate_reference(ventas.id, total, 1)
+        carros = Carro.objects.filter(clienteId = cliente)
         productos_to_send = []
         for carro in carros:
             producto = Producto.objects.get(id = carro.productoId.id)
             productos_to_send.append((producto, carro.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send})
+        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':ventas.id, 'reference_hash': reference})
     
-    
+def get_total(cliente):
+    carros = Carro.objects.filter(clienteId = cliente)
+    total = 0
+    for carro in carros:
+        producto =  carro.productoId
+        total += producto.precio_venta * carro.cantidad
+    return total
+
+'''
+generate_reference receives reference_code and total value, to generate a reference
+for payu purposses
+@reference_code: id of a venta object
+@total: total amount to pay on the venta object
+return reference value
+'''
+def generate_reference(reference_code, total, type, *args):
+    apiKey = '4Vj8eK4rloUd272L48hsrarnUA'
+    merchantId = '508029'
+    currency = 'COP'
+    if type == 1:
+        #for dev mode change 508029 for the real merchanID and the first apiKey 
+        raw_reference = f'{apiKey}~{merchantId}~{reference_code}~{total}~{currency}'
+    elif type == 2:
+        raw_reference = f'{apiKey}~{args[1].GET["merchantId"]}~{reference_code}~{total}~{args[1].GET["currency"]}~{args[0]}'
+    reference = hashlib.md5(raw_reference.encode('utf-8')).hexdigest()
+    return reference
+
 '''
 finish_purchase se encarga de crear la venta, la cual espera en futuros pasos cambiar su estado.
 request: request object
 return template
 '''
-def finish_purchase(request):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden('No tienes acceso a este método.')
+def create_venta(user_id, total, request):
+    cliente = Cliente.objects.get(user_id = user_id)
+    
+    if len(Venta.objects.filter(clienteId = cliente)) == 0:
+        venta = Venta(id = 12515316,clienteId=cliente, fecha=date.today(), total=total, estadoId=Estado.objects.get(id=1), direccion='No aplica')
+        carros = Carro.objects.filter(clienteId = cliente)
+        total = get_total(cliente)
+        new_pedido = 0
+        
+        venta.save()
+        
+        for carro in carros:
+            producto = carro.productoId
+            new_pedido = Pedido()
+            new_pedido.precio_unidad = producto.precio_venta
+            new_pedido.cantidad = carro.cantidad
+            new_pedido.productoId = producto
+            new_pedido.ventaId = venta
+            new_pedido.save()
+        
+        return True
     else:
-        if request.method == 'POST':
-            
-            cliente = Cliente.objects.get(user_id = request.user.id)
-            
-            if len(Venta.objects.filter(clienteId = cliente)) == 0:
-                venta = CreatePurchase(request.POST)
-                
-                if venta.is_valid():
-                    new_venta = venta.save(commit=False)
-                    cliente = Cliente.objects.get(user_id = request.user.id)
-                    new_venta.clienteId = cliente
-                    new_venta.estadoId = Estado.objects.get(id = 1)
-                    carros = Carro.objects.filter(clienteId = cliente.id)
-                    
-                    total = 0
-                    new_pedido = 0
-                    for carro in carros:
-                        producto = carro.productoId
-                        total += producto.precio_venta * carro.cantidad
-                    
-                    new_venta.total = total
-                    new_venta.save()
-                    
-                    for carro in carros:
-                        producto = carro.productoId
-                        new_pedido = Pedido()
-                        new_pedido.precio_unidad = producto.precio_venta
-                        new_pedido.cantidad = carro.cantidad
-                        new_pedido.productoId = producto
-                        new_pedido.ventaId = new_venta
-                        new_pedido.save()
-                    
-                    return render(request, 'store/fake_payment.html')
-            else:
-                messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
-                return redirect('checkout')
+        messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
+        return redirect('checkout')
         
 '''
 delete_venta assure you to only have 1 venta and pedido per
@@ -314,3 +330,10 @@ def delete_venta(request):
             deleted.append(my_venta.delete())
             
             return ('Funciona')
+
+def pay_response(request):
+    if request.method == 'GET':
+        tx_value = str("{:.1f}".format(round(float(request.GET['TX_VALUE']))))
+        signature = generate_reference(request.GET['referenceCode'], tx_value, 2, request.GET['transactionState'], request)
+        if signature == request.GET['signature']:
+            return render(request, 'store/payu_resume.html', {'data': request.GET, 'tx_value': tx_value, 'signature': signature})

@@ -29,13 +29,13 @@ def total(productos):
     return total
 
 @register.filter
-def calcular_total(product):
-    total = product[0].precio_venta * product[1]
+def calcular_total(pedido):
+    total = pedido[0].precio_venta * pedido[1]
     return total
 
 @register.filter
-def calcular_suma(products):
+def calcular_suma(pedidos):
     total = 0
-    for prod in products:
-        total += prod[0].precio_venta * prod[1]
+    for pedido in pedidos:
+        total += pedido[0].precio_venta * pedido[1]
     return total

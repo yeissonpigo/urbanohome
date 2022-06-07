@@ -1,0 +1,45 @@
+{% extends 'store/base.html'  %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+{% load tags %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/item.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/checkout.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+{% endblock %}
+
+{% block my_body %}
+<h1>Resumen de pago</h1>
+<table>
+    <tr>
+        <th>Orden</th>
+        <th>Referencia de pago</th>
+        <th>Valor</th>
+        <th>Estado transacción</th>
+        <th>Correo</th>
+        <th>Fecha</th>
+    </tr>
+    <tr>
+        <td>{{data.referenceCode}}</td>
+        <td>{{data.reference_pol}}</td>
+        <td>{{data.TX_VALUE|floatformat|intcomma}} {{data.currency}}</td>
+        <td>
+            {% if data.polResponseCode == '1'%}
+            Aprobada
+            {% elif data.polResponseCode == '4' %}
+            Rechazada 
+            {% else %}
+            Hubo un inconveniente, por favor contactar a PayU
+            {% endif %}
+        </td>
+        <td>{{data.buyerEmail}}</td>
+        <td>{{data.processingDate}}</td>
+    </tr>
+</table>
+{% endblock %}

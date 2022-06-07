@@ -40,7 +40,7 @@
     <td>{{product.0}}</td>
     <td>{{product.1}}</td>
     <td>{{product.0.precio_venta|floatformat|intcomma}}</td>
-    <td>{{product|calcular_total|floatformat|intcomma}}</td>
+    <td>{{product|calcular_total|floatformat|intcomma}}</td>  
   </tr>
   {% endfor %}
   </table>
@@ -48,10 +48,25 @@
   <p><strong>TOTAL: {{products|calcular_suma|floatformat|intcomma}}</strong></p>
 
     <div class="main_div">
-      <form action="{% url 'finishpurchase' %}" method="post">
+      <form action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" method="post">
         <h1>Información Requerida:</h1>
         {%csrf_token%}
-        <input type="text" maxlength="280" placeholder="Dirección de entrega" style="margin-top: 15px; text-align: center; padding: 10px 0;" name="direccion" id="direccionId">
+        <input name="merchantId"      type="hidden"  value="508029"   >
+        <input name="accountId"       type="hidden"  value="512321" >
+        <input name="description"     type="hidden"  value="¡Gracias por comprar  en urbanoHome!"  >
+        <input name="referenceCode"   type="hidden"  value="{{reference}}" >
+        <input name="amount"          type="hidden"  value="{{products|calcular_suma}}"   >
+        <input name="tax"             type="hidden"  value="0"  >
+        <input name="taxReturnBase"   type="hidden"  value="0" >
+        <input name="currency"        type="hidden"  value="COP" >
+        <input name="signature"       type="hidden"  value="{{reference_hash}}"  >
+        <input name="test"            type="hidden"  value="1" >
+        <input name="buyerEmail"                     value="test@test.com" >
+        <input name="responseUrl"     type="hidden"  value="http://localhost:8000/pay_response" >
+        <input name="confirmationUrl" type="hidden"  value="http://www.test.com/confirmation" >
+        <input name="shippingAddress"  placeholder="Dirección"   >
+        <input name="shippingCity" placeholder="Ciudad" >
+        <input name="shippingCountry" placeholder="País"  >   
         <button class="primary">Pagar</button>
       </form>
       <form action="{% url 'items' %}">

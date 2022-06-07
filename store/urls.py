@@ -12,8 +12,9 @@ urlpatterns = [
     path('cart/', views.card_index, name='card_index'),
     path('delete_cart/', views.delete_cart, name='delete_card'),
     path('checkout/', views.checkout, name='checkout'),
-    path('finishpurchase/', views.finish_purchase, name='finishpurchase'),
+    #path('finishpurchase/', views.finish_purchase, name='finishpurchase'),
     path('cancelpurchase/', views.delete_venta, name='cancelpurchase'),
     path('', views.index, name='home'),
     path('gallery/', views.gallery, name='gallery'),
+    path('pay_response/', views.pay_response, name='pay_response'),
 ]
