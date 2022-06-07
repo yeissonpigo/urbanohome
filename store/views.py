@@ -351,16 +351,17 @@ def pay_response(request):
             venta = Venta.objects.get(clienteId = cliente)
             if request.GET['polResponseCode'] == '1':
                 venta.estadoId = Estado.objects.get(id = 2)
+                send_mail(
+                    subject='Nuevo pago confirmado',
+                    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[settings.RECIPIENT_ADDRESS]
+                    )
             elif request.GET['polResponseCode'] == '4':
                 venta.estadoId = Estado.objects.get(id = 3)
             else:
                 venta.estadoId = Estado.objects.get(id = 4)
             venta.save()
-            send_mail(
-            subject='Nuevo pago confirmado',
-            message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.RECIPIENT_ADDRESS])
             #End test.
             return render(request, 'store/payu_resume.html', {'data': request.GET, 'tx_value': tx_value, 'signature': signature})
         else:
@@ -375,13 +376,19 @@ def pay_confirmation(request):
             cliente = Cliente.objects.get(user_id = request.user.id)
             venta = Venta.objects.get(clienteId = cliente)
             if request.POST['state_pol'] == 1:
-                venta.update(estadoId = 2)
+                venta.estadoId = Estado.objects.get(id = 2)
+                send_mail(
+                    subject='Nuevo pago confirmado',
+                    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[settings.RECIPIENT_ADDRESS]
+                    )
 
             elif request.POST['state_pol'] == 4:
-                venta.update(estadoId = 3)
+                venta.estadoId = Estado.objects.get(id = 3)
 
             else:
-                venta.update(estadoId = 4)
+                venta.estadoId = Estado.objects.get(id = 4)
 
             venta.save()
             return HttpResponse(status=200)
