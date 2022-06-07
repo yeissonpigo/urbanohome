@@ -246,7 +246,7 @@ def checkout(request):
         total = get_total(cliente)
         create_venta(userId, total, request)
         ventas = Venta.objects.get(clienteId = cliente.id)
-        reference = generate_reference(ventas.id, total)
+        reference = generate_reference(ventas.id, total, 1)
         carros = Carro.objects.filter(clienteId = cliente)
         productos_to_send = []
         for carro in carros:
@@ -269,9 +269,15 @@ for payu purposses
 @total: total amount to pay on the venta object
 return reference value
 '''
-def generate_reference(reference_code, total):
-    #for dev mode change 508029 for the real merchanID and the first apiKey 
-    raw_reference = f'4Vj8eK4rloUd272L48hsrarnUA~508029~{reference_code}~{total}~COP'
+def generate_reference(reference_code, total, type, *args):
+    apiKey = '4Vj8eK4rloUd272L48hsrarnUA'
+    merchantId = '508029'
+    currency = 'COP'
+    if type == 1:
+        #for dev mode change 508029 for the real merchanID and the first apiKey 
+        raw_reference = f'{apiKey}~{merchantId}~{reference_code}~{total}~{currency}'
+    elif type == 2:
+        raw_reference = f'{apiKey}~{args[1].GET["merchantId"]}~{reference_code}~{total}~{args[1].GET["currency"]}~{args[0]}'
     reference = hashlib.md5(raw_reference.encode('utf-8')).hexdigest()
     return reference
 
@@ -324,3 +330,10 @@ def delete_venta(request):
             deleted.append(my_venta.delete())
             
             return ('Funciona')
+
+def pay_response(request):
+    if request.method == 'GET':
+        tx_value = str("{:.1f}".format(round(float(request.GET['TX_VALUE']))))
+        signature = generate_reference(request.GET['referenceCode'], tx_value, 2, request.GET['transactionState'], request)
+        if signature == request.GET['signature']:
+            return render(request, 'store/payu_resume.html', {'data': request.GET, 'tx_value': tx_value, 'signature': signature})
