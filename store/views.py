@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 from .models import *
 import json
+import hashlib
 
 # Create your views here.
 
@@ -241,14 +242,30 @@ def checkout(request):
     elif request.method == 'GET':
         userId = request.user.id
         cliente = Cliente.objects.get(user_id = userId)
-        ventas = Carro.objects.get(clienteId = cliente.id)
-        productos_to_send = []
-        for venta in ventas:
-            producto = Producto.objects.get(id = venta.productoId.id)
-            productos_to_send.append((producto, venta.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta[0].id})
+        ventas = Venta.objects.get(clienteId = cliente.id)
+        pedidos = Pedido.objects.filter(ventaId = ventas.id)
+        total = 0
+        for pedido in pedidos:
+            total += pedido.precio_unidad * pedido.cantidad
+        reference = generate_reference(ventas.id, total)
+        #productos_to_send = []
+        #for venta in ventas:
+        #    producto = Producto.objects.get(id = venta.productoId.id)
+        #    productos_to_send.append((producto, venta.cantidad))
+        return render(request, 'store/checkout.html', {'products': pedidos, 'reference':ventas.id, 'reference_hash': reference})
     
-    
+'''
+generate_reference receives reference_code and total value, to generate a reference
+for payu purposses
+@reference_code: id of a venta object
+@total: total amount to pay on the venta object
+return reference value
+'''
+def generate_reference(reference_code, total):
+    raw_reference = f'pj4Pva49mWN3TjCFPBb0K6IyWE~972601~1~60000~COP'
+    reference = hashlib.md5(raw_reference.encode('utf-8')).hexdigest()
+    return reference
+
 '''
 finish_purchase se encarga de crear la venta, la cual espera en futuros pasos cambiar su estado.
 request: request object
