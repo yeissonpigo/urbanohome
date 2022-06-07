@@ -17,4 +17,5 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('gallery/', views.gallery, name='gallery'),
     path('pay_response/', views.pay_response, name='pay_response'),
+    path('pay_confirmation/', views.pay_confirmation, name='pay_confirmation'),
 ]
