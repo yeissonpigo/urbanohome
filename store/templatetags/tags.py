@@ -30,12 +30,12 @@ def total(productos):
 
 @register.filter
 def calcular_total(pedido):
-    total = pedido.precio_unidad * pedido.cantidad
+    total = pedido[0].precio_venta * pedido[1]
     return total
 
 @register.filter
 def calcular_suma(pedidos):
     total = 0
     for pedido in pedidos:
-        total += pedido.precio_unidad * pedido.cantidad
+        total += pedido[0].precio_venta * pedido[1]
     return total
