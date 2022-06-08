@@ -299,7 +299,7 @@ def create_venta(user_id, total, request):
         
         venta.save()
 
-        venta.referencia = 'urbanohome_test_' + str(venta.id)
+        venta.referencia = 'urbho' + str(venta.id)
         venta.save()
         
         for carro in carros:

@@ -5,7 +5,7 @@ from .models import *
 # Register your models here.
 
 class VentaAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'cliente','fecha', 'total', 'estadoId', 'direccion', 'referencia') 
+    list_display = ('__str__', 'cliente','fecha', 'total', 'estadoId', 'direccion', 'referencia',) 
 
     def cliente(self, obj):
         cliente = Cliente.objects.get(id=obj.clienteId.id)
