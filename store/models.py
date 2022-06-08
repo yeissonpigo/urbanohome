@@ -77,6 +77,7 @@ class Estado(models.Model):
         return f'{self.nombre}'
     
 class Venta(models.Model):
+    referencia = models.CharField(max_length=10, null=True)
     clienteId = models.ForeignKey(Cliente, on_delete=PROTECT)
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.FloatField()
