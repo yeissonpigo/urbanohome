@@ -353,12 +353,12 @@ def pay_response(request):
             venta = Venta.objects.get(clienteId = cliente)
             if request.GET['polResponseCode'] == '1':
                 venta.estadoId = Estado.objects.get(id = 2)
-                send_mail(
-                    subject='Nuevo pago confirmado',
-                    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.RECIPIENT_ADDRESS]
-                    )
+                #send_mail(
+                #    subject='Nuevo pago confirmado',
+                #    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
+                #    from_email=settings.EMAIL_HOST_USER,
+                #    recipient_list=[settings.RECIPIENT_ADDRESS]
+                #    )
             elif request.GET['polResponseCode'] == '4':
                 venta.estadoId = Estado.objects.get(id = 3)
             else:
