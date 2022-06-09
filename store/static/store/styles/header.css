@@ -31,9 +31,20 @@ body {
 
 .messages li {
     width: 100%;
+    height: 40px;
     text-align: center;
-    animation: delete_message 8s;
+    animation: delete_message 15s;
     opacity: 0;
+}
+
+.messages li p{
+    font-size: 1.5rem;
+    color: #2F2F2F;
+}
+
+.messages li.error p{
+    font-size: 1.5rem;
+    color: #FFFBFA;
 }
 
 .test {
