@@ -134,7 +134,7 @@ Carrito
   function update_messages(messages) {
     $("#messages").html("");
     $.each(messages, function (i, m) {
-      $("#messages").append("<li class='" + m.extra_tags + "''>" + m.message + "</li>");
+      $("#messages").append("<li class='" + m.extra_tags + "'><p>" + m.message + "</p></li>");
     });
   }
 </script>
