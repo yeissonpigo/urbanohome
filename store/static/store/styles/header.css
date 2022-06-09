@@ -163,9 +163,9 @@ body {
 
 .cart_setting_father {
     position: fixed;
-    height: 40px;
-    width: 40px;
-    bottom: 30px;
+    height: 60px;
+    width: 60px;
+    top: 150px;
     right: 20px;
     z-index: 25;
     background-color: #34c4ac70;
@@ -179,9 +179,9 @@ body {
 
 #cart_setting {
     position: absolute;
-    left: 12%;
+    left: 20%;
     top: 20%;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 @media only screen and (min-width: 800px) {
