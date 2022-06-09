@@ -14,13 +14,6 @@ Tienda UH
 {% endblock %}
 
 {% block my_body %}
-<ul class="messages" id="messages">
-  {% if messages %}
-  {% for message in messages %}
-  <li class="{{ message.tags }}">{{ message }}</li>
-  {% endfor %}
-  {% endif %}
-</ul>
 
 <h1>¡Nuestros productos!</h1>
 
@@ -177,7 +170,7 @@ Tienda UH
   function update_messages(messages){
   $("#messages").html("");
   $.each(messages, function (i, m) {
-                  $("#messages").append("<li class='"+m.extra_tags+"''>"+m.message+"</li>");
+                  $("#messages").append("<li class='"+m.extra_tags+"'><p>"+m.message+"</p></li>");
                 });
               }
   

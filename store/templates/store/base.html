@@ -92,6 +92,14 @@
     </div>
     {% endif %}
 
+    <ul class="messages" id="messages">
+        {% if messages %}
+        {% for message in messages %}
+        <li class="{{ message.tags }}"><p>{{message}}</p></li>
+        {% endfor %}
+        {% endif %}
+    </ul>
+
     {% block my_body %}{% endblock %}
     {% block my_scripts %}{% endblock %}
 </body>
