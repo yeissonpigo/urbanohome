@@ -251,6 +251,8 @@ def checkout(request):
         venta = 0
         if request.GET['origin'] != '0':
             venta = create_venta(userId, total, request)
+        else: 
+            venta = Venta.objects.get(id = request.GET['ventaId'])
         reference = generate_reference(venta.referencia, total, 1)
         carros = Carro.objects.filter(clienteId = cliente)
         productos_to_send = []
