@@ -43,7 +43,7 @@ Perfil
             </form>
         </td>
         {% if venta.estadoId.id == 2 %}
-        <td>Botón no pagar</td>
+        <td><input class="primary" type="button" value="Pago"></td>
         {% else %}
         <td>        
             <form action="{% url 'checkout' %}" method="GET">

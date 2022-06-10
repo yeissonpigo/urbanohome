@@ -248,16 +248,16 @@ def checkout(request):
         total = get_total(cliente)
 
         #if the access to checkout is from profile, it means that venta doesn't need to be created.
+        venta = 0
         if request.GET['origin'] != '0':
-            create_venta(userId, total, request)
-        ventas = Venta.objects.get(clienteId = cliente.id)
-        reference = generate_reference(ventas.referencia, total, 1)
+            venta = create_venta(userId, total, request)
+        reference = generate_reference(venta.referencia, total, 1)
         carros = Carro.objects.filter(clienteId = cliente)
         productos_to_send = []
         for carro in carros:
             producto = Producto.objects.get(id = carro.productoId.id)
             productos_to_send.append((producto, carro.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':ventas.referencia, 'reference_hash': reference})
+        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta.referencia, 'reference_hash': reference})
     
 def get_total(cliente):
     carros = Carro.objects.filter(clienteId = cliente)
@@ -313,7 +313,7 @@ def create_venta(user_id, total, request):
         new_pedido.ventaId = venta
         new_pedido.save()
     
-    return True
+    return venta
         
 '''
 delete_venta assure you to only have 1 venta and pedido per
@@ -349,7 +349,7 @@ def pay_response(request):
         if signature == request.GET['signature']:
             #Start test. Delete on production
             cliente = Cliente.objects.get(user_id = request.user.id)
-            venta = Venta.objects.get(clienteId = cliente)
+            venta = Venta.objects.get(referencia = request.GET['referenceCode'])
             if request.GET['polResponseCode'] == '1':
                 venta.estadoId = Estado.objects.get(id = 2)
                 send_mail(

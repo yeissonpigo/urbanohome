@@ -70,6 +70,7 @@ Carrito
   </form>
   {% else %}
   <form action="{% url 'checkout' %}" method="get">
+    <input type="hidden" name="origin" id="origin" value="1">
     <button class="primary payment">Realizar pago</button>
   </form>
   {% endif %}
