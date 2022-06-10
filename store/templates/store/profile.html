@@ -46,8 +46,9 @@ Perfil
         <td>Botón no pagar</td>
         {% else %}
         <td>        
-            <form action="{% url 'products' %}" method="GET">
+            <form action="{% url 'checkout' %}" method="GET">
             <input type="hidden" name="ventaId" id="ventaId" value="{{venta}}">
+            <input type="hidden" name="origin" id="origin" value="0">
             <button type="submit" class="primary">Pagar</button>
             </form>
         </td>

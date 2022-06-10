@@ -246,7 +246,10 @@ def checkout(request):
         userId = request.user.id
         cliente = Cliente.objects.get(user_id = userId)
         total = get_total(cliente)
-        create_venta(userId, total, request)
+
+        #if the access to checkout is from profile, it means that venta doesn't need to be created.
+        if request.GET['origin'] != '0':
+            create_venta(userId, total, request)
         ventas = Venta.objects.get(clienteId = cliente.id)
         reference = generate_reference(ventas.referencia, total, 1)
         carros = Carro.objects.filter(clienteId = cliente)
