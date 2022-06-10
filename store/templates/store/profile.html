@@ -20,7 +20,6 @@ Perfil
     ¡Tus compras!
 </h1>
 
-{% for venta in ventas %}
 <table>
     <tr>    
         <th>Rerefencia</th>
@@ -30,6 +29,7 @@ Perfil
         <th>Detalle</th>
         <th>Pagar</th>
     </tr>
+{% for venta in ventas %}
     <tr>
         <td>{{venta.referencia}}</td>
         <td>{{venta.fecha}}</td>
@@ -54,7 +54,7 @@ Perfil
         </td>
         {% endif %}
     </tr>
-</table>
 {% endfor %}
+</table>
 
 {% endblock %}
