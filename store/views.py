@@ -370,6 +370,12 @@ def pay_response(request):
             messages.error(request, 'Lo sentimos, los datos se han visto comprometidos.')
             return redirect('checkout')
 
+
+'''
+pay_response takes care of checking the integrity of the data sent by payU by checking the signature received from payU, with the data received from payU. If signature received is equal to signature calculated, then returns resume of payment. Otherwise, returns error.
+@request: Request object
+return: either 200 code or error code
+'''
 def pay_confirmation(request):
     if request.method == 'POST':
         tx_value = calculate_tx_value(request.GET['TX_VALUE'])
@@ -397,6 +403,35 @@ def pay_confirmation(request):
         else:
             return HttpResponse(status=400)
 
+#calculate_tx_value takes care of rounding tx_value sent from payU to 1 digit after comma.
+#@tx_value:tx_value received from payU
+#return: return rounded tx_value
 def calculate_tx_value(tx_value):
     final_tx_value = str("{:.1f}".format(round(float(tx_value))))
     return final_tx_value
+
+#profile returns all the ventas that certaing logged in user has generated.
+#@request: request info
+#return: render profile html
+def profile(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'GET':
+            cliente = Cliente.objects.get(user_id=request.user.id)
+            ventas = Venta.objects.filter(clienteId = cliente)
+            return render(request, 'store/profile.html', {'ventas':ventas})
+
+def products(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'GET':
+            my_cliente = Cliente.objects.get(user_id=request.user.id)
+            my_cards = Pedido.objects.filter(ventaId=request.GET['ventaId'])
+            my_productos = []
+            for my_card in my_cards:
+                my_product = Producto.objects.get(id=my_card.productoId.id)
+                my_productos.append(my_product)
+        return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente, 'origin': request.GET['origin']
+                                                   })
