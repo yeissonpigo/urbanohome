@@ -294,30 +294,26 @@ return template
 def create_venta(user_id, total, request):
     cliente = Cliente.objects.get(user_id = user_id)
     
-    if len(Venta.objects.filter(clienteId = cliente)) == 0:
-        venta = Venta(clienteId=cliente, fecha=date.today(), total=total, estadoId=Estado.objects.get(id=1), direccion='No aplica')
-        carros = Carro.objects.filter(clienteId = cliente)
-        total = get_total(cliente)
-        new_pedido = 0
-        
-        venta.save()
+    venta = Venta(clienteId=cliente, fecha=date.today(), total=total, estadoId=Estado.objects.get(id=1), direccion='No aplica')
+    carros = Carro.objects.filter(clienteId = cliente)
+    total = get_total(cliente)
+    new_pedido = 0
+    
+    venta.save()
 
-        venta.referencia = 'urbho' + str(venta.id)
-        venta.save()
-        
-        for carro in carros:
-            producto = carro.productoId
-            new_pedido = Pedido()
-            new_pedido.precio_unidad = producto.precio_venta
-            new_pedido.cantidad = carro.cantidad
-            new_pedido.productoId = producto
-            new_pedido.ventaId = venta
-            new_pedido.save()
-        
-        return True
-    else:
-        messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
-        return redirect('checkout')
+    venta.referencia = 'urbho' + str(venta.id)
+    venta.save()
+    
+    for carro in carros:
+        producto = carro.productoId
+        new_pedido = Pedido()
+        new_pedido.precio_unidad = producto.precio_venta
+        new_pedido.cantidad = carro.cantidad
+        new_pedido.productoId = producto
+        new_pedido.ventaId = venta
+        new_pedido.save()
+    
+    return True
         
 '''
 delete_venta assure you to only have 1 venta and pedido per
