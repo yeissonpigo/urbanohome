@@ -18,4 +18,6 @@ urlpatterns = [
     path('gallery/', views.gallery, name='gallery'),
     path('pay_response/', views.pay_response, name='pay_response'),
     path('pay_confirmation/', views.pay_confirmation, name='pay_confirmation'),
+    path('profile/', views.profile, name='profile'),
+    path('products/', views.products, name='products'),
 ]

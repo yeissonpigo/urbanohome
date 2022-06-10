@@ -65,7 +65,7 @@
             <li>
                 <div class="center__div">
                     {% if user.is_authenticated %}
-                    <a href="#">{{user.username}}</a>
+                    <a href="{% url 'profile' %}">{{user.username}}</a>
                     {% else %}
                     <a href="{% url 'login' %}">Iniciar sesión</a>
                     {% endif %}

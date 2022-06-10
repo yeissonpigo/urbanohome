@@ -246,15 +246,18 @@ def checkout(request):
         userId = request.user.id
         cliente = Cliente.objects.get(user_id = userId)
         total = get_total(cliente)
-        create_venta(userId, total, request)
-        ventas = Venta.objects.get(clienteId = cliente.id)
-        reference = generate_reference(ventas.referencia, total, 1)
+
+        #if the access to checkout is from profile, it means that venta doesn't need to be created.
+        venta = 0
+        if request.GET['origin'] != '0':
+            venta = create_venta(userId, total, request)
+        reference = generate_reference(venta.referencia, total, 1)
         carros = Carro.objects.filter(clienteId = cliente)
         productos_to_send = []
         for carro in carros:
             producto = Producto.objects.get(id = carro.productoId.id)
             productos_to_send.append((producto, carro.cantidad))
-        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':ventas.referencia, 'reference_hash': reference})
+        return render(request, 'store/checkout.html', {'products': productos_to_send, 'reference':venta.referencia, 'reference_hash': reference})
     
 def get_total(cliente):
     carros = Carro.objects.filter(clienteId = cliente)
@@ -291,30 +294,26 @@ return template
 def create_venta(user_id, total, request):
     cliente = Cliente.objects.get(user_id = user_id)
     
-    if len(Venta.objects.filter(clienteId = cliente)) == 0:
-        venta = Venta(clienteId=cliente, fecha=date.today(), total=total, estadoId=Estado.objects.get(id=1), direccion='No aplica')
-        carros = Carro.objects.filter(clienteId = cliente)
-        total = get_total(cliente)
-        new_pedido = 0
-        
-        venta.save()
+    venta = Venta(clienteId=cliente, fecha=date.today(), total=total, estadoId=Estado.objects.get(id=1), direccion='No aplica')
+    carros = Carro.objects.filter(clienteId = cliente)
+    total = get_total(cliente)
+    new_pedido = 0
+    
+    venta.save()
 
-        venta.referencia = 'urbho' + str(venta.id)
-        venta.save()
-        
-        for carro in carros:
-            producto = carro.productoId
-            new_pedido = Pedido()
-            new_pedido.precio_unidad = producto.precio_venta
-            new_pedido.cantidad = carro.cantidad
-            new_pedido.productoId = producto
-            new_pedido.ventaId = venta
-            new_pedido.save()
-        
-        return True
-    else:
-        messages.error(request, 'Lo sentimos, pero usted tiene un pago pendiente.')
-        return redirect('checkout')
+    venta.referencia = 'urbho' + str(venta.id)
+    venta.save()
+    
+    for carro in carros:
+        producto = carro.productoId
+        new_pedido = Pedido()
+        new_pedido.precio_unidad = producto.precio_venta
+        new_pedido.cantidad = carro.cantidad
+        new_pedido.productoId = producto
+        new_pedido.ventaId = venta
+        new_pedido.save()
+    
+    return venta
         
 '''
 delete_venta assure you to only have 1 venta and pedido per
@@ -350,7 +349,7 @@ def pay_response(request):
         if signature == request.GET['signature']:
             #Start test. Delete on production
             cliente = Cliente.objects.get(user_id = request.user.id)
-            venta = Venta.objects.get(clienteId = cliente)
+            venta = Venta.objects.get(referencia = request.GET['referenceCode'])
             if request.GET['polResponseCode'] == '1':
                 venta.estadoId = Estado.objects.get(id = 2)
                 #send_mail(
@@ -370,6 +369,12 @@ def pay_response(request):
             messages.error(request, 'Lo sentimos, los datos se han visto comprometidos.')
             return redirect('checkout')
 
+
+'''
+pay_response takes care of checking the integrity of the data sent by payU by checking the signature received from payU, with the data received from payU. If signature received is equal to signature calculated, then returns resume of payment. Otherwise, returns error.
+@request: Request object
+return: either 200 code or error code
+'''
 def pay_confirmation(request):
     if request.method == 'POST':
         tx_value = calculate_tx_value(request.GET['TX_VALUE'])
@@ -397,6 +402,35 @@ def pay_confirmation(request):
         else:
             return HttpResponse(status=400)
 
+#calculate_tx_value takes care of rounding tx_value sent from payU to 1 digit after comma.
+#@tx_value:tx_value received from payU
+#return: return rounded tx_value
 def calculate_tx_value(tx_value):
     final_tx_value = str("{:.1f}".format(round(float(tx_value))))
     return final_tx_value
+
+#profile returns all the ventas that certaing logged in user has generated.
+#@request: request info
+#return: render profile html
+def profile(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'GET':
+            cliente = Cliente.objects.get(user_id=request.user.id)
+            ventas = Venta.objects.filter(clienteId = cliente)
+            return render(request, 'store/profile.html', {'ventas':ventas})
+
+def products(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('No tienes acceso a este método.')
+    else:
+        if request.method == 'GET':
+            my_cliente = Cliente.objects.get(user_id=request.user.id)
+            my_cards = Pedido.objects.filter(ventaId=request.GET['ventaId'])
+            my_productos = []
+            for my_card in my_cards:
+                my_product = Producto.objects.get(id=my_card.productoId.id)
+                my_productos.append(my_product)
+        return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente, 'origin': request.GET['origin']
+                                                   })

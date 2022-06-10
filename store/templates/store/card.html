@@ -64,9 +64,16 @@ Carrito
   {% endfor %}
 </div>
 <div class="payment_step">
+  {% if origin == "0" %}
+  <form action="{% url 'profile' %}" method="get">
+    <button class="primary payment">Volver a tus compras</button>
+  </form>
+  {% else %}
   <form action="{% url 'checkout' %}" method="get">
+    <input type="hidden" name="origin" id="origin" value="1">
     <button class="primary payment">Realizar pago</button>
   </form>
+  {% endif %}
   <form action="{% url 'items' %}" method="get">
     <button class="secondary payment">Seguir comprando</button>
   </form>
