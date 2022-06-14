@@ -24,7 +24,9 @@ def index(request):
 #Return gallery view
 def gallery(request):
     gallery = Galeria.objects.all()
-    return render(request, 'store/gallery.html', {'gallery': gallery},)
+    images = list(range(1,36))
+    images = [str(x) for x in images] 
+    return render(request, 'store/gallery.html', {'gallery': gallery, 'images': images},)
 
 # Login function takes care of user's login.
 # request: Request object
