@@ -11,6 +11,9 @@ class VentaAdmin(admin.ModelAdmin):
         cliente = Cliente.objects.get(id=obj.clienteId.id)
         return cliente
 
+class ConsejoAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+
 admin.site.register(Cliente),
 admin.site.register(TipoIdentificacion)
 admin.site.register(TipoProducto)
@@ -23,3 +26,4 @@ admin.site.register(Estado)
 admin.site.register(Venta, VentaAdmin)
 admin.site.register(Pedido)
 admin.site.register(Galeria)
+admin.site.register(Consejo, ConsejoAdmin)

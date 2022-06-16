@@ -1,4 +1,5 @@
 from datetime import datetime
+from statistics import mode
 from django.db import models
 from django.db.models.base import Model
 from django.contrib.auth.models import User
@@ -94,4 +95,9 @@ class Pedido(models.Model):
     cantidad = models.IntegerField()
     
 class Galeria(models.Model):
+    imagen = models.FileField(upload_to='media/')
+
+class Consejo(models.Model):
+    title = models.CharField(max_length=500)
+    body = models.CharField(max_length=10000)
     imagen = models.FileField(upload_to='media/')

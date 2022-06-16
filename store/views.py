@@ -425,6 +425,9 @@ def profile(request):
             ventas = Venta.objects.filter(clienteId = cliente)
             return render(request, 'store/profile.html', {'ventas':ventas})
 
+#products shows the products of certain venta that a customer wants to check
+#@request: request object
+#@return: render the card.html file but doesn't allow to create a new venta from it.
 def products(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('No tienes acceso a este método.')
@@ -438,3 +441,8 @@ def products(request):
                 my_productos.append(my_product)
         return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente, 'origin': request.GET['origin']
                                                    })
+
+
+def blog(request):
+    consejos = Consejo.objects.all()
+    return render(request, 'store/blog.html', {'consejos': consejos})
