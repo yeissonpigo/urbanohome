@@ -22,4 +22,5 @@ urlpatterns = [
     path('products/', views.products, name='products'),
     path('blog/', views.blog, name='blog'),
     path('blog-read/', views.blog_read, name='blog-read'),
+    path('contact/', views.contact, name='contact'),
 ]
