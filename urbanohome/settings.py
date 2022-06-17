@@ -33,7 +33,7 @@ DEBUG = True
 USE_S3 = False
 if USE_S3:
     ALLOWED_HOSTS = ['urbanohome-c3sd4.ondigitalocean.app']
-ALLOWED_HOSTS = ['139.144.28.86']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition

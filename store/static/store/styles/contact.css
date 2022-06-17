@@ -1,0 +1,22 @@
+.icons {
+    width: 80%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.icons img{
+    width: 100%;
+}
+
+.icons a{
+    text-decoration: none;
+    color: #34C4AB;
+    margin: 10px 20px;
+}
+
+.icons a:hover {
+    color: #2ca591;
+}

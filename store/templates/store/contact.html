@@ -9,16 +9,27 @@ Contacto
 <link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
 <link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
 <link rel="stylesheet" href="{% static 'store/styles/blog.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/contact.css' %}">
 {% endblock %}
 
 {% block my_body %}
 <div class="container" id="container">
     <h1>¡Contáctanos!</h1>
-    <a href="https://www.facebook.com/UrbanoHomeTm/">
-        <i class="fa-brands fa-facebook-square"></i>
-    </a>
-    <a href="https://www.instagram.com/urbanohome03/">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
+    <div class="icons">
+        <img src="{% static 'store/images/uh.png' %}" alt="Logo de UrbanoHome">
+        <a href="https://www.facebook.com/UrbanoHomeTm/">
+            <i class="fa-brands fa-facebook-square" style="font-size: 5rem;"></i>
+        </a>
+        <a href="https://www.instagram.com/urbanohome03/">
+            <i style="font-size: 5rem;" class="fa-brands fa-instagram"></i>
+        </a>
+        <img src="{% static 'store/images/verdegrillo.png' %}" alt="Logo de UrbanoHome">
+        <a href="https://www.facebook.com/plantasverdegrillo-100525794649133">
+            <i class="fa-brands fa-facebook-square" style="font-size: 5rem;"></i>
+        </a>
+        <a href="https://www.instagram.com/plantasverdegrillo/">
+            <i style="font-size: 5rem;" class="fa-brands fa-instagram"></i>
+        </a>
+    </div>
 </div>
 {% endblock %}
