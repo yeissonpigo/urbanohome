@@ -15,19 +15,11 @@ Galería
 <div class="container" id="container">
     <h1>¡Nuestra galería!</h1>
     <div class="gallery">
-        {% for image in gallery %}
-        <img src="{{image.imagen.url}}" alt="Imagen que forma parte de la galería" id="{{image.id}}" onclick="biggerImage({{image.id}})">
+        {% for image in images %}
+            {% with 'store/images/img'|add:image|add:'.jpeg' as image_static%}
+                <img src="{% static  image_static %}" alt="">
+            {% endwith %}
         {% endfor %}
     </div>
 </div>
-{% endblock %}
-
-{% block my_scripts %}
-<script type="text/javascript">
-    function biggerImage(myId){
-        myPicture = document.getElementById(myId);
-        myPicture.classList.toggle("bigger");
-        document.getElementById("container").classList.toggle("dark");
-    }
-</script>
 {% endblock %}

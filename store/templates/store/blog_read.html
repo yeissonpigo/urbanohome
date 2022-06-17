@@ -1,0 +1,22 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+Consejos
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/blog.css' %}">
+{% endblock %}
+
+{% block my_body %}
+<div class="container" id="container">
+        <div class="articulo">
+            <h1>{{consejo.title}}</h1>
+            <img src="{{consejo.imagen.url}}" alt="Imagen del artículo {{consejo.title}}" class="img">
+            <div class="linebreaks">{{consejo.body|linebreaks}}</div>
+        </div>
+</div>
+{% endblock %}

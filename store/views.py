@@ -24,7 +24,9 @@ def index(request):
 #Return gallery view
 def gallery(request):
     gallery = Galeria.objects.all()
-    return render(request, 'store/gallery.html', {'gallery': gallery},)
+    images = list(range(1,36))
+    images = [str(x) for x in images] 
+    return render(request, 'store/gallery.html', {'gallery': gallery, 'images': images},)
 
 # Login function takes care of user's login.
 # request: Request object
@@ -423,6 +425,9 @@ def profile(request):
             ventas = Venta.objects.filter(clienteId = cliente)
             return render(request, 'store/profile.html', {'ventas':ventas})
 
+#products shows the products of certain venta that a customer wants to check
+#@request: request object
+#@return: render the card.html file but doesn't allow to create a new venta from it.
 def products(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('No tienes acceso a este método.')
@@ -436,3 +441,12 @@ def products(request):
                 my_productos.append(my_product)
         return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente, 'origin': request.GET['origin']
                                                    })
+
+
+def blog(request):
+    consejos = Consejo.objects.all()
+    return render(request, 'store/blog.html', {'consejos': consejos})
+
+def blog_read(request):
+    consejo = Consejo.objects.get(id = request.GET['id'])
+    return render(request, 'store/blog_read.html', {'consejo': consejo})

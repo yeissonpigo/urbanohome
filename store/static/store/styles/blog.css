@@ -1,0 +1,45 @@
+.blogs {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: all 1s;
+    border-radius: 6px;
+}
+
+.articulo {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.blogs:hover {
+    background-color: gray;
+}
+
+.blogs:hover img {
+    box-shadow: 0 0 10px  #FFFBFA;
+}
+
+.blogs h2 {
+    margin-bottom: 20px;
+}
+
+.img {
+    border-radius: 6px;
+    margin-top: 10px;
+    width: 50%;
+    box-shadow: 0 0 10px  rgba(128, 128, 128, 0.47);
+    transition: all 1s;
+}
+
+.linebreaks p {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    line-height: 150%;
+    text-justify: inter-word;
+}

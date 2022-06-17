@@ -1,0 +1,27 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+Consejos
+{% endblock %}
+
+{% block my_css %}
+<link rel="stylesheet" href="{% static 'store/styles/home.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/form.css' %}">
+<link rel="stylesheet" href="{% static 'store/styles/blog.css' %}">
+{% endblock %}
+
+{% block my_body %}
+<div class="container" id="container">
+    <h1>¡Consejos!</h1>
+    {% for consejo in consejos %}
+        <form action="{% url 'blog-read' %}" method="get" id="form{{consejo.id}}">
+            <div class="blogs" onclick="document.getElementById('form{{consejo.id}}').submit();">
+                <h2>{{consejo.title}}</h2>
+                <img class="img" src="{{consejo.imagen.url}}" alt="Imagen del artículo {{consejo.title}}">
+            </div>
+            <input type="hidden" name="id" value="{{consejo.id}}">
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}
