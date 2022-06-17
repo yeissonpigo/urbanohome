@@ -356,12 +356,12 @@ def pay_response(request):
             venta = Venta.objects.get(referencia = request.GET['referenceCode'])
             if request.GET['polResponseCode'] == '1':
                 venta.estadoId = Estado.objects.get(id = 2)
-                send_mail(
-                    subject='Nuevo pago confirmado',
-                    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.RECIPIENT_ADDRESS]
-                    )
+                #send_mail(
+                #    subject='Nuevo pago confirmado',
+                #    message=f'El pago de la venta id {venta.id}, realizada por el cliente {cliente} se ha confirmado correctamente. Por favor, encargarse del envío de los productos',
+                #    from_email=settings.EMAIL_HOST_USER,
+                #    recipient_list=[settings.RECIPIENT_ADDRESS]
+                #    )
             elif request.GET['polResponseCode'] == '4':
                 venta.estadoId = Estado.objects.get(id = 3)
             else:
@@ -442,11 +442,21 @@ def products(request):
         return render(request, 'store/card.html', {'my_cards': my_cards, 'my_products': my_productos, 'userId': my_cliente.id, 'test': my_cliente, 'origin': request.GET['origin']
                                                    })
 
-
+#blog returns a list with all the consejos
+#@request: request object
+#@return: render the blog.html file that shows all the consejos
 def blog(request):
     consejos = Consejo.objects.all()
     return render(request, 'store/blog.html', {'consejos': consejos})
 
+
+#blog_read returns certain consejo
+#@request: request object
+#@return: render the blog_read.html file that shows the consejo
 def blog_read(request):
     consejo = Consejo.objects.get(id = request.GET['id'])
     return render(request, 'store/blog_read.html', {'consejo': consejo})
+
+
+def contact(request):
+    return render(request, 'store/contact.html')

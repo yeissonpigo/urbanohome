@@ -33,7 +33,7 @@ DEBUG = True
 USE_S3 = False
 if USE_S3:
     ALLOWED_HOSTS = ['urbanohome-c3sd4.ondigitalocean.app']
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['139.144.28.86']
 
 
 # Application definition
@@ -172,9 +172,9 @@ if USE_S3:
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 else:
     STATIC_URL = '/staticfiles/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'store\static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'store/static'),)
 
 MEDIA_URL = '/mediafiles/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
