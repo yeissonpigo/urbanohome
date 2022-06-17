@@ -99,5 +99,5 @@ class Galeria(models.Model):
 
 class Consejo(models.Model):
     title = models.CharField(max_length=500)
-    body = models.CharField(max_length=10000)
+    body = models.TextField(max_length=10000)
     imagen = models.FileField(upload_to='media/')

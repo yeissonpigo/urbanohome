@@ -14,11 +14,14 @@ Consejos
 {% block my_body %}
 <div class="container" id="container">
     <h1>¡Consejos!</h1>
-    <div class="blogs">
-        {% for consejo in consejos %}
-            <h2>{{consejo.title}}</h2>
-            <img src="{{consejo.imagen.url}}" alt="Imagen del artículo {{consejo.title}}">
-        {% endfor %}
-    </div>
+    {% for consejo in consejos %}
+        <form action="{% url 'blog-read' %}" method="get" id="form{{consejo.id}}">
+            <div class="blogs" onclick="document.getElementById('form{{consejo.id}}').submit();">
+                <h2>{{consejo.title}}</h2>
+                <img class="img" src="{{consejo.imagen.url}}" alt="Imagen del artículo {{consejo.title}}">
+            </div>
+            <input type="hidden" name="id" value="{{consejo.id}}">
+        </form>
+    {% endfor %}
 </div>
 {% endblock %}

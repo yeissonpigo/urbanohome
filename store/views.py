@@ -446,3 +446,7 @@ def products(request):
 def blog(request):
     consejos = Consejo.objects.all()
     return render(request, 'store/blog.html', {'consejos': consejos})
+
+def blog_read(request):
+    consejo = Consejo.objects.get(id = request.GET['id'])
+    return render(request, 'store/blog_read.html', {'consejo': consejo})
